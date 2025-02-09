@@ -1,0 +1,86 @@
+'use client';
+
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Bus, ChatTeardrop, Robot } from '@phosphor-icons/react';
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
+      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+      
+      <div className="relative container mx-auto px-4 py-24">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-2xl mx-auto text-center"
+        >
+          <h1 className="text-4xl font-bold text-white mb-6">
+            Witelli<span className="text-blue-400">20</span>
+          </h1>
+          <p className="text-xl text-white/80 mb-12">
+            Welcome to the Witellikerstrasse 20 student house community
+          </p>
+
+          <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <Link 
+              href="/transport"
+              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+            >
+              <Bus 
+                size={32}
+                weight="light"
+                className="mb-3 text-blue-400 group-hover:scale-110 transition-transform duration-200"
+              />
+              <h2 className="text-lg font-semibold mb-2">Transport</h2>
+              <p className="text-sm text-white/60">
+                Live departures and connections
+              </p>
+            </Link>
+
+            <Link 
+              href="/board"
+              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+            >
+              <ChatTeardrop 
+                size={32}
+                weight="light"
+                className="mb-3 text-purple-400 group-hover:scale-110 transition-transform duration-200"
+              />
+              <h2 className="text-lg font-semibold mb-2">Message Board</h2>
+              <p className="text-sm text-white/60">
+                Anonymous community posts
+              </p>
+            </Link>
+
+            <Link 
+              href="/generator"
+              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+            >
+              <Robot 
+                size={32}
+                weight="light"
+                className="mb-3 text-yellow-400 group-hover:scale-110 transition-transform duration-200"
+              />
+              <h2 className="text-lg font-semibold mb-2">AI Stories</h2>
+              <p className="text-sm text-white/60">
+                AI-generated WG humor by Gemini
+              </p>
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+
+      <footer className="absolute bottom-0 inset-x-0 border-t border-white/10">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center text-white/60">
+            <p>&copy; {new Date().getFullYear()} Witellikerstrasse 20</p>
+            <p className="text-sm mt-2">
+              Built with Next.js
+            </p>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
