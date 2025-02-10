@@ -15,6 +15,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-2xl mx-auto text-center"
         >
+          <div className="text-6xl mb-4">🏠</div>
           <h1 className="text-4xl font-bold text-white mb-6">
             Witelli<span className="text-blue-400">20</span>
           </h1>
