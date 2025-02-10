@@ -7,7 +7,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - **Transport Information**: Real-time transport schedules and departures
 - **Message Board**: Interactive board for student communications
 - **Fun Generator**: Custom content generation system
-- **Stolen Items Tracking**: System for tracking stolen items
+- **Lost & Found**: System for tracking missing items & packages
+- **Room Reservations**: Book common spaces like Aula or Party Room
 
 ## Contributing
 
@@ -47,8 +48,9 @@ src/
 ├── app/                    # Next.js app router pages
 │   ├── api/               # API routes
 │   ├── board/            # Board view
-│   ├── generator/        # Fun content generator
-│   ├── stolen/          # Stolen items tracking
+│   ├── generator/        # AI story generator
+│   ├── reservations/    # Room reservation system
+│   ├── stolen/          # Lost & found tracking
 │   └── transport/       # Transport information
 ├── components/           # Reusable React components
 ├── lib/                  # Utility functions and APIs
@@ -62,6 +64,8 @@ src/
 - `CountdownTimer`: Timer component for scheduling
 - `DailyStory`: Displays daily generated content
 - `MessageActions`: Handles message-related actions
+- `QuickLinks`: Quick access to important resources
+- `FAQ`: Frequently asked questions component
 
 ## Technologies Used
 
@@ -69,6 +73,8 @@ src/
 - [Firebase](https://firebase.google.com/) - Backend and hosting
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [Phosphor Icons](https://phosphoricons.com/) - Icon system
 
 ## Learn More
 
