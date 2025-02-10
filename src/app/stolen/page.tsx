@@ -20,7 +20,8 @@ import {
   WarningOctagon,
   Plus,
   MagnifyingGlass,
-  MapPin
+  MapPin,
+  TShirt
 } from '@phosphor-icons/react';
 import { db } from '@/lib/firebase';
 import type { StolenItem, ItemStatus, StolenItemFormData, ItemUpdate } from '@/types/stolen-item';
@@ -38,6 +39,12 @@ export default function StolenItemsPage() {
     type: 'package',
     location: ''
   });
+
+  const itemTypeIcons = {
+    package: <Package size={24} weight="light" className="text-white/60 mt-1" />,
+    clothing: <TShirt size={24} weight="light" className="text-white/60 mt-1" />,
+    other: <WarningOctagon size={24} weight="light" className="text-white/60 mt-1" />
+  };
 
   useEffect(() => {
     try {
@@ -107,16 +114,20 @@ export default function StolenItemsPage() {
   const handleStatusUpdate = async (itemId: string, newStatus: ItemStatus) => {
     try {
       const itemRef = doc(db, 'stolen-items', itemId);
+      // Get current item data
+      const currentItem = items.find(item => item.id === itemId);
+      if (!currentItem) throw new Error('Item not found');
+
       await updateDoc(itemRef, {
         status: newStatus,
-        updates: [
-          {
-            date: serverTimestamp(),
-            text: `Status updated to: ${newStatus}`,
-            status: newStatus
-          }
-        ]
+        lastUpdated: serverTimestamp(),
+        updates: [...(currentItem.updates || []), {
+          date: new Date(),
+          text: `Status updated to: ${newStatus}`,
+          status: newStatus
+        }]
       });
+      setError(null);
     } catch (error) {
       console.error('Error updating status:', error);
       setError('Failed to update status. Please try again.');
@@ -129,9 +140,21 @@ export default function StolenItemsPage() {
       item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (item.shipper && item.shipper.toLowerCase().includes(searchTerm.toLowerCase())) ||
       item.location.toLowerCase().includes(searchTerm.toLowerCase());
+
+    console.log('Filtering item:', {
+      itemStatus: item.status,
+      filterStatus: statusFilter,
+      matches: statusFilter === 'all' || item.status === statusFilter
+    });
+    
     const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
+
+  // Debug logging for status filter changes
+  useEffect(() => {
+    console.log('Status filter changed to:', statusFilter);
+  }, [statusFilter]);
 
   return (
     <motion.main
@@ -218,16 +241,27 @@ export default function StolenItemsPage() {
                 className="w-full bg-white/10 text-white border border-white/20 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               />
             </div>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as ItemStatus | 'all')}
-              className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-            >
-              <option value="all" className="bg-blue-900">All Status</option>
-              <option value="stolen" className="bg-blue-900">Missing/Stolen</option>
-              <option value="found" className="bg-blue-900">Found</option>
-              <option value="resolved" className="bg-blue-900">Resolved</option>
-            </select>
+            <div className="relative">
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  console.log('Status filter changed:', e.target.value);
+                  setStatusFilter(e.target.value as ItemStatus | 'all');
+                }}
+                className="appearance-none bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer hover:bg-white/20 transition-colors"
+                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+              >
+                <option value="all" className="bg-blue-900">All Status</option>
+                <option value="stolen" className="bg-blue-900">Missing/Stolen</option>
+                <option value="found" className="bg-blue-900">Found</option>
+                <option value="resolved" className="bg-blue-900">Resolved</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white/40">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                </svg>
+              </div>
+            </div>
           </div>
 
           {/* Report Form */}
@@ -241,12 +275,13 @@ export default function StolenItemsPage() {
                     <select
                       value={formData.type}
                       onChange={(e) =>
-                        setFormData((prev) => ({ ...prev, type: e.target.value as 'package' | 'other' }))
+                        setFormData((prev) => ({ ...prev, type: e.target.value as 'package' | 'clothing' | 'other' }))
                       }
                       className="w-full bg-white/5 text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                       required
                     >
                       <option value="package" className="bg-blue-900">Package</option>
+                      <option value="clothing" className="bg-blue-900">Clothing</option>
                       <option value="other" className="bg-blue-900">Other Item</option>
                     </select>
                   </div>
@@ -338,7 +373,9 @@ export default function StolenItemsPage() {
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-start gap-3">
-                    {item.type === 'package' ? (
+                    {item.type === 'clothing' ? (
+                      <TShirt size={24} weight="light" className="text-white/60 mt-1" />
+                    ) : item.type === 'package' ? (
                       <Package size={24} weight="light" className="text-white/60 mt-1" />
                     ) : (
                       <WarningOctagon size={24} weight="light" className="text-white/60 mt-1" />

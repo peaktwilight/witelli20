@@ -19,7 +19,7 @@ export default function Home() {
             Witelli<span className="text-blue-400">20</span>
           </h1>
           <p className="text-xl text-white/80 mb-12">
-            Welcome to the Witellikerstrasse 20 student house community
+            Welcome to the Witellikerstrasse 20 student community dashboard!
           </p>
 
           <div className="grid sm:grid-cols-2 md:grid-2 gap-6 max-w-4xl mx-auto">

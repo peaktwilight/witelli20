@@ -14,7 +14,7 @@ export interface StolenItem {
   lastSeen?: Date;
   location: string;
   status: ItemStatus;
-  type: 'package' | 'other';
+  type: 'package' | 'clothing' | 'other';
   contactInfo?: string;  // Optional contact info for the person reporting
   additionalDetails?: string;
   updates?: {
@@ -29,7 +29,7 @@ export interface StolenItemFormData {
   shipper?: string;
   lastSeen?: Date;
   location: string;
-  type: 'package' | 'other';
+  type: 'package' | 'clothing' | 'other';
   contactInfo?: string;
   additionalDetails?: string;
 }
