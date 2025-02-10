@@ -39,13 +39,7 @@ export default function StolenItemsPage() {
     type: 'package',
     location: ''
   });
-
-  const itemTypeIcons = {
-    package: <Package size={24} weight="light" className="text-white/60 mt-1" />,
-    clothing: <TShirt size={24} weight="light" className="text-white/60 mt-1" />,
-    other: <WarningOctagon size={24} weight="light" className="text-white/60 mt-1" />
-  };
-
+  
   useEffect(() => {
     try {
       const q = query(
