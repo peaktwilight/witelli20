@@ -30,14 +30,28 @@ export default function GeneratorPage() {
   }, [content, generateNew]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"
+    >
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
       
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-lg bg-blue-900/80 border-b border-white/10">
+      <motion.header 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="sticky top-0 z-50 backdrop-blur-lg bg-blue-900/80 border-b border-white/10"
+      >
         <div className="container mx-auto px-4">
           <div className="py-3 flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <motion.div 
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="flex items-center gap-4"
+            >
               <Link 
                 href="/"
                 className="p-2 -ml-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/5"
@@ -48,16 +62,26 @@ export default function GeneratorPage() {
                 <h1 className="text-2xl font-bold text-white">AI Story Generator</h1>
                 <Robot size={24} weight="light" className="text-yellow-400" />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="container mx-auto px-4 py-12"
+      >
         <div className="max-w-2xl mx-auto">
           {/* Generate Button */}
-          <div className="text-center mb-8">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-center mb-8"
+          >
             <p className="text-white/60 text-lg mb-6">
               Powered by Google Gemini AI
             </p>
@@ -80,7 +104,7 @@ export default function GeneratorPage() {
               />
               {isLoading ? 'AI is writing...' : 'Generate AI Story'}
             </button>
-          </div>
+          </motion.div>
 
           {/* Content Display */}
           <motion.div
@@ -89,42 +113,43 @@ export default function GeneratorPage() {
             transition={{ duration: 0.5 }}
           >
             {content && (
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-2xl">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-2xl"
+              >
                 <div className="prose prose-xl prose-invert max-w-none">
                   {content.split('\n').map((paragraph, i) => (
                     paragraph.trim() && (
-                      <p 
+                      <motion.p
                         key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
                         className="text-white/90 text-xl leading-relaxed mb-6 last:mb-0"
                       >
                         {paragraph}
-                      </p>
+                      </motion.p>
                     )
                   ))}
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {!content && !isLoading && (
-              <div className="text-center text-white/60 py-12">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center text-white/60 py-12"
+              >
                 <p className="text-xl mb-4">Oops! Something went wrong 😅</p>
                 <p>Try clicking the button again!</p>
-              </div>
+              </motion.div>
             )}
           </motion.div>
         </div>
-      </div>
-
-      <footer className="mt-16 border-t border-white/10">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-white/60">
-            <p>&copy; {new Date().getFullYear()} Witellikerstrasse 20</p>
-            <p className="text-sm mt-2">
-              Stories generated by Google Gemini
-            </p>
-          </div>
-        </div>
-      </footer>
-    </main>
+      </motion.div>
+    </motion.main>
   );
 }

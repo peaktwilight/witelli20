@@ -172,7 +172,7 @@ export function formatDuration(duration: string | number): string {
   try {
     // Handle "00d00:30:00" format
     if (duration.includes('d')) {
-      const [_, time] = duration.split('d');
+      const [, time] = duration.split('d');
       const [hours, minutes] = time.split(':');
       const totalMinutes = parseInt(hours) * 60 + parseInt(minutes);
       return formatDuration(totalMinutes * 60); // Convert to seconds

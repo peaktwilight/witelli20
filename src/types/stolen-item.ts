@@ -1,5 +1,11 @@
 export type ItemStatus = 'stolen' | 'found' | 'resolved';
 
+export interface ItemUpdate {
+  date: Date;
+  text: string;
+  status: ItemStatus;
+}
+
 export interface StolenItem {
   id: string;
   description: string;

@@ -10,6 +10,19 @@ export default function StudentConnections() {
   const [connections, setConnections] = useState<Record<string, Connection[]>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [expandedDestinations, setExpandedDestinations] = useState<Set<string>>(new Set());
+
+  const toggleDestination = (destination: string) => {
+    setExpandedDestinations(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(destination)) {
+        newSet.delete(destination);
+      } else {
+        newSet.add(destination);
+      }
+      return newSet;
+    });
+  };
 
   useEffect(() => {
     const fetchConnections = async () => {
@@ -132,7 +145,7 @@ export default function StudentConnections() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-6"
+      className="grid grid-cols-1 md:grid-cols-1 gap-4 md:gap-6"
     >
       {Object.entries(connections).map(([destination, connectionList]) => (
         <motion.div
@@ -141,31 +154,52 @@ export default function StudentConnections() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/10 backdrop-blur-lg rounded-lg overflow-hidden"
         >
-          <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-4">
+          <button
+            onClick={() => toggleDestination(destination)}
+            className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-4 flex items-center justify-between group"
+          >
             <h3 className="text-lg font-semibold flex items-center space-x-2">
               <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
                 <StudentDestinationIcon destination={destination} />
               </span>
               <span>{destination}</span>
             </h3>
-          </div>
-          <div className="divide-y divide-white/10">
-            {connectionList.slice(0, 2).map((connection, idx) => connection.from.departure && (
-              <div key={idx} className="p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <CountdownTimer targetTime={connection.from.departure} />
-                  <div className="text-white/60 text-sm">
-                    {formatDuration(connection.duration)} • {connection.transfers} transfer{connection.transfers !== 1 ? 's' : ''}
+            <svg
+              className={`w-5 h-5 transition-transform ${expandedDestinations.has(destination) ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <AnimatePresence>
+            {expandedDestinations.has(destination) && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="divide-y divide-white/10"
+              >
+                {connectionList.map((connection, idx) => connection.from.departure && (
+                  <div key={idx} className="p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <CountdownTimer targetTime={connection.from.departure} />
+                      <div className="text-white/60 text-sm">
+                        {formatDuration(connection.duration)} • {connection.transfers} transfer{connection.transfers !== 1 ? 's' : ''}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {connection.sections.map((section, index) =>
+                        renderJourneyStep(section, index, index === connection.sections.length - 1)
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  {connection.sections.map((section, index) => 
-                    renderJourneyStep(section, index, index === connection.sections.length - 1)
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       ))}
     </motion.div>

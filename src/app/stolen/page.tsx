@@ -11,7 +11,8 @@ import {
   onSnapshot,
   serverTimestamp,
   updateDoc,
-  doc
+  doc,
+  Timestamp
 } from 'firebase/firestore';
 import {
   House,
@@ -22,7 +23,7 @@ import {
   MapPin
 } from '@phosphor-icons/react';
 import { db } from '@/lib/firebase';
-import type { StolenItem, ItemStatus, StolenItemFormData } from '@/types/stolen-item';
+import type { StolenItem, ItemStatus, StolenItemFormData, ItemUpdate } from '@/types/stolen-item';
 
 export default function StolenItemsPage() {
   const [items, setItems] = useState<StolenItem[]>([]);
@@ -54,7 +55,7 @@ export default function StolenItemsPage() {
               ...data,
               dateReported: data.dateReported?.toDate(),
               lastSeen: data.lastSeen?.toDate(),
-              updates: data.updates?.map((update: any) => ({
+              updates: data.updates?.map((update: Omit<ItemUpdate, 'date'> & { date: Timestamp }) => ({
                 ...update,
                 date: update.date.toDate()
               }))
@@ -133,11 +134,20 @@ export default function StolenItemsPage() {
   });
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"
+    >
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-lg bg-blue-900/80 border-b border-white/10">
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="sticky top-0 z-50 backdrop-blur-lg bg-blue-900/80 border-b border-white/10"
+      >
         <div className="container mx-auto px-4">
           <div className="py-3 flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -163,7 +173,7 @@ export default function StolenItemsPage() {
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
@@ -390,14 +400,6 @@ export default function StolenItemsPage() {
         </div>
       </div>
 
-      <footer className="mt-16 border-t border-white/10">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-white/60">
-            <p>&copy; {new Date().getFullYear()} Witellikerstrasse 20</p>
-            <p className="text-sm mt-2">Built with Next.js &amp; Firebase</p>
-          </div>
-        </div>
-      </footer>
-    </main>
+    </motion.main>
   );
 }

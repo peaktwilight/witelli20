@@ -206,16 +206,6 @@ export default function BoardPage() {
         </div>
       </div>
 
-      <footer className="mt-16 border-t border-white/10">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-white/60">
-            <p>&copy; {new Date().getFullYear()} Witellikerstrasse 20</p>
-            <p className="text-sm mt-2">
-              Built with Next.js & Firebase
-            </p>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
