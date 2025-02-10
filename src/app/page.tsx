@@ -59,11 +59,26 @@ export default function Home() {
               </p>
             </Link>
 
-            <Link 
+            <Link
+              href="/reservations"
+              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+            >
+              <Calendar
+                size={32}
+                weight="light"
+                className="mb-3 text-green-400 group-hover:scale-110 transition-transform duration-200"
+              />
+              <h2 className="text-lg font-semibold mb-2">Room Reservations</h2>
+              <p className="text-sm text-white/60">
+                Book Aula or Party Room in advance
+              </p>
+            </Link>
+
+            <Link
               href="/stolen"
               className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
             >
-              <WarningOctagon 
+              <WarningOctagon
                 size={32}
                 weight="light"
                 className="mb-3 text-red-400 group-hover:scale-110 transition-transform duration-200"
@@ -74,11 +89,11 @@ export default function Home() {
               </p>
             </Link>
 
-            <Link 
+            <Link
               href="/generator"
               className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
             >
-              <Robot 
+              <Robot
                 size={32}
                 weight="light"
                 className="mb-3 text-yellow-400 group-hover:scale-110 transition-transform duration-200"
@@ -86,21 +101,6 @@ export default function Home() {
               <h2 className="text-lg font-semibold mb-2">AI Stories</h2>
               <p className="text-sm text-white/60">
                 AI-generated WG humor by Gemini
-              </p>
-            </Link>
-
-            <Link 
-              href="/reservations"
-              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
-            >
-              <Calendar 
-                size={32}
-                weight="light"
-                className="mb-3 text-green-400 group-hover:scale-110 transition-transform duration-200"
-              />
-              <h2 className="text-lg font-semibold mb-2">Room Reservations</h2>
-              <p className="text-sm text-white/60">
-                Book Aula or Party Room in advance
               </p>
             </Link>
           </div>
