@@ -39,7 +39,7 @@ export default function StolenItemsPage() {
     type: 'package',
     location: ''
   });
-  
+
   useEffect(() => {
     try {
       const q = query(
@@ -181,13 +181,6 @@ export default function StolenItemsPage() {
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setShowForm(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-400 transition-colors"
-            >
-              <Plus size={20} weight="bold" />
-              Report Missing Item
-            </button>
           </div>
         </div>
       </motion.header>
