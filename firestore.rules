@@ -12,6 +12,11 @@ service cloud.firestore {
       allow read, write: if true;
     }
     
+    // Allow read/write access to reservations collection
+    match /reservations/{reservationId} {
+      allow read, write: if true;
+    }
+    
     // Default deny all other access
     match /{document=**} {
       allow read, write: if false;
