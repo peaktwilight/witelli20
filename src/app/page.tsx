@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Bus, ChatTeardrop, Robot } from '@phosphor-icons/react';
+import { Bus, ChatTeardrop, Robot, WarningOctagon } from '@phosphor-icons/react';
 
 export default function Home() {
   return (
@@ -22,7 +22,7 @@ export default function Home() {
             Welcome to the Witellikerstrasse 20 student house community
           </p>
 
-          <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="grid sm:grid-cols-2 md:grid-2 gap-6 max-w-4xl mx-auto">
             <Link 
               href="/transport"
               className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
@@ -47,9 +47,24 @@ export default function Home() {
                 weight="light"
                 className="mb-3 text-purple-400 group-hover:scale-110 transition-transform duration-200"
               />
-              <h2 className="text-lg font-semibold mb-2">Message Board</h2>
+              <h2 className="text-lg font-semibold mb-2">Confessions</h2>
               <p className="text-sm text-white/60">
                 Anonymous community posts
+              </p>
+            </Link>
+
+            <Link 
+              href="/stolen"
+              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+            >
+              <WarningOctagon 
+                size={32}
+                weight="light"
+                className="mb-3 text-red-400 group-hover:scale-110 transition-transform duration-200"
+              />
+              <h2 className="text-lg font-semibold mb-2">Lost & Found</h2>
+              <p className="text-sm text-white/60">
+                Track missing items & packages
               </p>
             </Link>
 

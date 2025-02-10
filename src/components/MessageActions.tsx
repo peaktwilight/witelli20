@@ -13,18 +13,22 @@ interface MessageActionsProps {
 
 export default function MessageActions({ messageId, upvotes, downvotes }: MessageActionsProps) {
   const [isVoting, setIsVoting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleVote = async (type: 'up' | 'down') => {
     if (isVoting) return;
 
     try {
       setIsVoting(true);
+      setError(null);
+      console.log(`Attempting to ${type}vote message:`, messageId);
+
       const messageRef = doc(db, 'messages', messageId);
       
       // Store the vote in localStorage to prevent multiple votes
       const votes = JSON.parse(localStorage.getItem('message-votes') || '{}');
       if (votes[messageId]) {
-        // If user already voted on this message, return
+        console.log('User already voted on this message');
         return;
       }
 
@@ -32,12 +36,15 @@ export default function MessageActions({ messageId, upvotes, downvotes }: Messag
         [type === 'up' ? 'upvotes' : 'downvotes']: increment(1)
       });
 
+      console.log('Vote registered successfully');
+
       // Save the vote in localStorage
       votes[messageId] = type;
       localStorage.setItem('message-votes', JSON.stringify(votes));
 
     } catch (error) {
       console.error('Error voting:', error);
+      setError('Failed to register vote. Please try again.');
     } finally {
       setIsVoting(false);
     }
@@ -50,6 +57,9 @@ export default function MessageActions({ messageId, upvotes, downvotes }: Messag
 
   return (
     <div className="flex items-center gap-4">
+      {error && (
+        <span className="text-xs text-red-400">{error}</span>
+      )}
       <button 
         onClick={() => handleVote('up')}
         disabled={isVoting || userVote !== undefined}

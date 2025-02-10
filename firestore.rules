@@ -1,0 +1,20 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read/write access to messages collection
+    match /messages/{messageId} {
+      allow read, write: if true;
+    }
+    
+    // Allow read/write access to stolen-items collection
+    match /stolen-items/{itemId} {
+      allow read, write: if true;
+    }
+    
+    // Default deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

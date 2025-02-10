@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, where, Timestamp } from 'firebase/firestore';
-import { House, Clock } from '@phosphor-icons/react';
+import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import { House, Clock, ChatCircle } from '@phosphor-icons/react';
 import { db } from '@/lib/firebase';
 import type { Message, TimePeriod } from '@/types/message';
 import MessageActions from '@/components/MessageActions';
@@ -14,48 +14,47 @@ export default function BoardPage() {
   const [newMessage, setNewMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('week');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Calculate the timestamp for the selected time period
-    const now = new Date();
-    let filterDate = new Date();
-    
-    switch (timePeriod) {
-      case 'day':
-        filterDate.setDate(now.getDate() - 1);
-        break;
-      case 'week':
-        filterDate.setDate(now.getDate() - 7);
-        break;
-      case 'month':
-        filterDate.setMonth(now.getMonth() - 1);
-        break;
-      case 'all':
-        filterDate = new Date(0); // Beginning of time
-        break;
+    try {
+      console.log('Setting up Firestore listener...');
+      
+      const q = query(
+        collection(db, 'messages'),
+        orderBy('createdAt', 'desc')
+      );
+
+      const unsubscribe = onSnapshot(q, 
+        (snapshot) => {
+          console.log('Received Firestore snapshot:', snapshot.size, 'documents');
+          const newMessages = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              text: data.text,
+              createdAt: data.createdAt?.toDate(),
+              upvotes: data.upvotes || 0,
+              downvotes: data.downvotes || 0,
+            } as Message;
+          });
+          setMessages(newMessages);
+          setError(null);
+        },
+        (error) => {
+          console.error('Firestore error:', error);
+          setError('Failed to load messages. Please try again later.');
+        }
+      );
+
+      return () => {
+        console.log('Cleaning up Firestore listener...');
+        unsubscribe();
+      };
+    } catch (error) {
+      console.error('Setup error:', error);
+      setError('Failed to set up message loading. Please try again later.');
     }
-
-    const q = query(
-      collection(db, 'messages'),
-      where('createdAt', '>=', Timestamp.fromDate(filterDate)),
-      orderBy('createdAt', 'desc')
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newMessages = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          text: data.text,
-          createdAt: data.createdAt?.toDate(),
-          upvotes: data.upvotes,
-          downvotes: data.downvotes,
-        } as Message;
-      });
-      setMessages(newMessages);
-    });
-
-    return () => unsubscribe();
   }, [timePeriod]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,6 +63,8 @@ export default function BoardPage() {
 
     try {
       setIsSubmitting(true);
+      console.log('Adding new message...');
+      
       await addDoc(collection(db, 'messages'), {
         text: newMessage.trim(),
         createdAt: serverTimestamp(),
@@ -71,9 +72,12 @@ export default function BoardPage() {
         downvotes: 0,
       });
 
+      console.log('Message added successfully');
       setNewMessage('');
+      setError(null);
     } catch (error) {
       console.error('Error adding message:', error);
+      setError('Failed to post message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -101,9 +105,13 @@ export default function BoardPage() {
               >
                 <House size={24} weight="light" />
               </Link>
-              <h1 className="text-2xl font-bold text-white">
-                Message Board
-              </h1>
+              <div>
+                <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+                  <ChatCircle size={24} weight="light" className="text-purple-400" />
+                  Witelli Confessions
+                </h1>
+                <p className="text-sm text-white/60">Anonymous messages for Witelli residents</p>
+              </div>
             </div>
 
             {/* Time Period Filter */}
@@ -128,19 +136,26 @@ export default function BoardPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6">
         <div className="max-w-2xl mx-auto">
+          {/* Error Display */}
+          {error && (
+            <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-200">
+              {error}
+            </div>
+          )}
+
           {/* Post Form */}
           <form onSubmit={handleSubmit} className="mb-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
               <textarea
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Share your thoughts..."
+                placeholder="Share your anonymous confession or message..."
                 className="w-full bg-white/5 rounded-lg p-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 resize-none"
                 rows={3}
               />
               <div className="mt-3 flex justify-between items-center">
                 <p className="text-sm text-white/40">
-                  Anonymous posting enabled
+                  Your message will be posted anonymously
                 </p>
                 <button
                   type="submit"
@@ -153,7 +168,7 @@ export default function BoardPage() {
                     }
                   `}
                 >
-                  {isSubmitting ? 'Posting...' : 'Post'}
+                  {isSubmitting ? 'Posting...' : 'Post Anonymously'}
                 </button>
               </div>
             </div>
@@ -182,9 +197,9 @@ export default function BoardPage() {
               </motion.div>
             ))}
 
-            {messages.length === 0 && (
+            {messages.length === 0 && !error && (
               <div className="text-center py-12 text-white/40">
-                No messages in this time period. Be the first to post!
+                No confessions yet. Be the first to share anonymously!
               </div>
             )}
           </div>
