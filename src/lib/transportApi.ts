@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const TRANSPORT_API_BASE_URL = 'http://transport.opendata.ch/v1';
+const TRANSPORT_API_BASE_URL = 'https://transport.opendata.ch/v1';
 
 export const STUDENT_DESTINATIONS = {
   'ETH Zentrum': 'Zürich, ETH/Universitätsspital',
