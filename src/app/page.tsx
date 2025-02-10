@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Bus, ChatTeardrop, Robot, WarningOctagon } from '@phosphor-icons/react';
+import FAQ from '@/components/FAQ';
+import QuickLinks from '@/components/QuickLinks';
 
 export default function Home() {
   return (
@@ -13,17 +15,20 @@ export default function Home() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-2xl mx-auto text-center"
+          className="max-w-4xl mx-auto"
         >
-          <div className="text-6xl mb-4">🏠</div>
-          <h1 className="text-4xl font-bold text-white mb-6">
-            Witelli<span className="text-blue-400">20</span>
-          </h1>
-          <p className="text-xl text-white/80 mb-12">
-            Welcome to the Witellikerstrasse 20 student community dashboard!
-          </p>
+          <div className="text-center mb-16">
+            <div className="text-6xl mb-4">🏠</div>
+            <h1 className="text-4xl font-bold text-white mb-6">
+              Witelli<span className="text-blue-400">20</span>
+            </h1>
+            <p className="text-xl text-white/80">
+              Welcome to the Witellikerstrasse 20 student community dashboard!
+            </p>
+          </div>
 
-          <div className="grid sm:grid-cols-2 md:grid-2 gap-6 max-w-4xl mx-auto">
+          {/* Main Navigation Cards */}
+          <div className="grid sm:grid-cols-2 gap-6 mb-16">
             <Link 
               href="/transport"
               className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
@@ -84,9 +89,15 @@ export default function Home() {
               </p>
             </Link>
           </div>
+
+          {/* Quick Links and FAQ Sections */}
+          <div className="space-y-16">
+            <QuickLinks />
+            <FAQ />
+          </div>
+          
         </motion.div>
       </div>
-
     </main>
   );
 }
