@@ -4,13 +4,14 @@ import Link from 'next/link';
 import TransportBoard from '@/components/TransportBoard';
 import StudentConnections from '@/components/StudentConnections';
 import NextDeparture from '@/components/NextDeparture';
-import { House } from '@phosphor-icons/react';
+import { House, Train } from '@phosphor-icons/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 export default function TransportPage() {
+  const [isBalgristOpen, setIsBalgristOpen] = useState(true);
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
-      <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-      
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 backdrop-blur-lg bg-blue-900/80 border-b border-white/10">
         <div className="container mx-auto px-3 sm:px-4">
@@ -33,42 +34,81 @@ export default function TransportPage() {
         </div>
       </header>
 
+      {/* Background Grid */}
+      <div className="fixed inset-x-0 top-[72px] bottom-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] pointer-events-none"></div>
+
       {/* Main Content */}
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6">
-        {/* Mobile View: Tabs */}
+        {/* Mobile View: Navigation */}
         <div className="block lg:hidden mb-4">
-          <div className="relative">
-            <select
-              onChange={(e) => {
-                const element = document.getElementById(e.target.value);
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                setIsBalgristOpen(true);
+                const element = document.getElementById('departures');
                 if (element) {
                   element.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="w-full appearance-none bg-white/10 text-white border border-white/20 rounded-lg pl-4 pr-10 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
-              style={{ WebkitAppearance: 'none' }}
+              className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg px-4 py-3 text-sm font-medium"
             >
-              <option value="departures" style={{ backgroundColor: '#1e3a8a' }}>From Balgrist</option>
-              <option value="destinations" style={{ backgroundColor: '#1e3a8a' }}>Student Destinations</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white/60">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
+              From Balgrist
+            </button>
+            <button
+              onClick={() => {
+                const element = document.getElementById('destinations');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg px-4 py-3 text-sm font-medium"
+            >
+              Student Destinations
+            </button>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Local Departures */}
-          <div id="departures" className="lg:sticky lg:top-28 lg:col-span-1 space-y-3 sm:space-y-4 bg-white/10 backdrop-blur-lg rounded-lg p-4">
-            <h2 className="text-lg sm:text-xl font-semibold text-white">From Balgrist</h2>
-            <TransportBoard />
+          <div id="departures" className="lg:sticky lg:top-28 lg:col-span-1">
+            <div className="bg-white/10 backdrop-blur-lg rounded-lg overflow-hidden">
+              <button
+                onClick={() => setIsBalgristOpen(!isBalgristOpen)}
+                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-4 flex items-center justify-between group"
+              >
+                <h3 className="text-lg font-semibold flex items-center space-x-2">
+                  <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                   <Train size={20} weight="light" />
+                  </span>
+                  <span>Departures from Balgrist</span>
+                </h3>
+                <svg
+                  className={`w-5 h-5 transition-transform ${isBalgristOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <AnimatePresence>
+                {isBalgristOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="divide-y divide-white/10"
+                  >
+                    <TransportBoard />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Student Connections */}
-          <div id="destinations" className="lg:col-span-2 space-y-3 sm:space-y-4 bg-white/10 backdrop-blur-lg rounded-lg p-4">
-            <h2 className="text-lg sm:text-xl font-semibold text-white">Student Destinations</h2>
+          <div id="destinations" className="lg:col-span-2">
             <StudentConnections />
           </div>
         </div>

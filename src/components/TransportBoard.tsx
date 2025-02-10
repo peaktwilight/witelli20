@@ -66,7 +66,7 @@ export default function TransportBoard() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-white/10 backdrop-blur-lg rounded-lg overflow-hidden"
+      className="overflow-hidden"
     >
       <AnimatePresence mode="wait">
         <motion.div
