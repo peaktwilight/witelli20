@@ -61,13 +61,13 @@ export default function TransportPage() {
 
         <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Local Departures */}
-          <div id="departures" className="lg:sticky lg:top-28 lg:col-span-1 space-y-3 sm:space-y-4 bg-white/5 backdrop-blur-sm rounded-lg p-4">
+          <div id="departures" className="lg:sticky lg:top-28 lg:col-span-1 space-y-3 sm:space-y-4 bg-white/10 backdrop-blur-lg rounded-lg p-4">
             <h2 className="text-lg sm:text-xl font-semibold text-white">From Balgrist</h2>
             <TransportBoard />
           </div>
 
           {/* Student Connections */}
-          <div id="destinations" className="lg:col-span-2 space-y-3 sm:space-y-4 bg-white/5 backdrop-blur-sm rounded-lg p-4">
+          <div id="destinations" className="lg:col-span-2 space-y-3 sm:space-y-4 bg-white/10 backdrop-blur-lg rounded-lg p-4">
             <h2 className="text-lg sm:text-xl font-semibold text-white">Student Destinations</h2>
             <StudentConnections />
           </div>
