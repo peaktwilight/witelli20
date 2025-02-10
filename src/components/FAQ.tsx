@@ -189,7 +189,7 @@ export default function FAQ() {
               www.woko.ch/schadenformular
             </a>
             <p className="text-sm mt-2">
-              For maintenance issues, submit written notifications to the janitor's letterbox
+              For maintenance issues, submit written notifications to the janitor&apos;s letterbox
             </p>
           </div>
         </FAQItem>
