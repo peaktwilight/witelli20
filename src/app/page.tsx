@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Bus, ChatTeardrop, Robot, WarningOctagon, Calendar } from '@phosphor-icons/react';
+import { Bus, ChatTeardrop, Robot, WarningOctagon, Calendar, Cloud } from '@phosphor-icons/react';
 import FAQ from '@/components/FAQ';
 import QuickLinks from '@/components/QuickLinks';
 
@@ -86,6 +86,21 @@ export default function Home() {
               <h2 className="text-lg font-semibold mb-2">Lost & Found</h2>
               <p className="text-sm text-white/60">
                 Track missing items & packages
+              </p>
+            </Link>
+
+            <Link
+              href="/weather"
+              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+            >
+              <Cloud
+                size={32}
+                weight="light"
+                className="mb-3 text-blue-400 group-hover:scale-110 transition-transform duration-200"
+              />
+              <h2 className="text-lg font-semibold mb-2">Weather</h2>
+              <p className="text-sm text-white/60">
+                Local forecast for Balgrist
               </p>
             </Link>
 
