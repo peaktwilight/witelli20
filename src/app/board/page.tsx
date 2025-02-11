@@ -195,9 +195,9 @@ export default function BoardPage() {
       {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur-lg bg-blue-900/80 border-b border-white/10">
         <div className="container mx-auto px-4">
-          <div className="py-3 flex items-center justify-between">
+          <div className="py-3 flex flex-col md:flex-row md:items-center gap-4 md:gap-0 md:justify-between">
             <div className="flex items-center gap-4">
-              <Link 
+              <Link
                 href="/"
                 className="p-2 -ml-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/5"
               >
@@ -213,13 +213,13 @@ export default function BoardPage() {
             </div>
 
             {/* Filters */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <ArrowsDownUp size={20} weight="light" className="text-white/60" />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <ArrowsDownUp size={20} weight="light" className="text-white/60 shrink-0" />
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value as SortOption)}
-                  className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  className="w-full bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value} className="bg-blue-900">
@@ -229,12 +229,12 @@ export default function BoardPage() {
                 </select>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Clock size={20} weight="light" className="text-white/60" />
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Clock size={20} weight="light" className="text-white/60 shrink-0" />
                 <select
                   value={timePeriod}
                   onChange={(e) => setTimePeriod(e.target.value as TimePeriod)}
-                  className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  className="w-full bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                 >
                   {timeFilters.map((filter) => (
                     <option key={filter.value} value={filter.value} className="bg-blue-900">
@@ -268,15 +268,15 @@ export default function BoardPage() {
                 className="w-full bg-white/5 rounded-lg p-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 resize-none"
                 rows={3}
               />
-              <div className="mt-3 flex justify-between items-center">
-                <p className="text-sm text-white/40">
+              <div className="mt-3 flex flex-col-reverse sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-center">
+                <p className="text-sm text-white/40 text-center sm:text-left">
                   Your message will be posted anonymously
                 </p>
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className={`
-                    px-4 py-2 rounded-lg text-sm font-medium
+                    w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-medium
                     ${isSubmitting
                       ? 'bg-purple-500/50 text-white/50'
                       : 'bg-purple-500 text-white hover:bg-purple-400 transition-colors'
@@ -299,21 +299,26 @@ export default function BoardPage() {
                 className="bg-white/10 backdrop-blur-sm rounded-lg p-4"
               >
                 <p className="text-white/90 mb-3">{message.text}</p>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-4">
-                    <MessageActions 
-                      messageId={message.id}
-                      upvotes={message.upvotes}
-                      downvotes={message.downvotes}
-                    />
-                    <button
-                      onClick={() => setReplyingTo(replyingTo === message.id ? null : message.id)}
-                      className={`text-purple-400 hover:text-purple-300 ${replyingTo === message.id ? 'font-medium' : ''}`}
-                    >
-                      {replyingTo === message.id ? 'Cancel' : 'Reply'}
-                    </button>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:items-center sm:justify-between text-sm">
+                  <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-4 min-w-[120px]">
+                      <MessageActions
+                        messageId={message.id}
+                        upvotes={message.upvotes}
+                        downvotes={message.downvotes}
+                      />
+                      <button
+                        onClick={() => setReplyingTo(replyingTo === message.id ? null : message.id)}
+                        className={`text-purple-400 hover:text-purple-300 ${replyingTo === message.id ? 'font-medium' : ''}`}
+                      >
+                        {replyingTo === message.id ? 'Cancel' : 'Reply'}
+                      </button>
+                    </div>
+                    <span className="text-white/40 sm:hidden">
+                      {message.createdAt?.toLocaleDateString()}
+                    </span>
                   </div>
-                  <span className="text-white/40">
+                  <span className="hidden sm:inline text-white/40">
                     {message.createdAt?.toLocaleDateString()}
                   </span>
                 </div>
@@ -337,7 +342,7 @@ export default function BoardPage() {
                           type="submit"
                           disabled={isSubmitting}
                           className={`
-                            px-4 py-2 rounded-lg text-sm font-medium
+                            w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-medium
                             ${isSubmitting
                               ? 'bg-purple-500/50 text-white/50'
                               : 'bg-purple-500 text-white hover:bg-purple-400 transition-colors'
@@ -357,13 +362,18 @@ export default function BoardPage() {
                     {message.replies.map((reply: Reply) => (
                       <div key={reply.id} className="bg-white/5 rounded-lg p-3">
                         <p className="text-white/90 mb-2">{reply.text}</p>
-                        <div className="flex items-center justify-between text-sm">
-                          <MessageActions
-                            messageId={reply.id}
-                            upvotes={reply.upvotes}
-                            downvotes={reply.downvotes}
-                          />
-                          <span className="text-white/40">
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 sm:items-center sm:justify-between text-sm">
+                          <div className="flex flex-wrap items-center gap-4">
+                            <MessageActions
+                              messageId={reply.id}
+                              upvotes={reply.upvotes}
+                              downvotes={reply.downvotes}
+                            />
+                            <span className="text-white/40 sm:hidden">
+                              {reply.createdAt?.toLocaleDateString()}
+                            </span>
+                          </div>
+                          <span className="hidden sm:inline text-white/40">
                             {reply.createdAt?.toLocaleDateString()}
                           </span>
                         </div>
