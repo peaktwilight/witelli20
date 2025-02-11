@@ -5,6 +5,23 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, where } from 'firebase/firestore';
 import { House, Clock, ChatCircle, ArrowsDownUp } from '@phosphor-icons/react';
+
+const formatRelativeTime = (date: Date) => {
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (minutes < 1) return 'just now';
+  if (minutes === 1) return '1 minute ago';
+  if (minutes < 60) return `${minutes} minutes ago`;
+  if (hours === 1) return '1 hour ago';
+  if (hours < 24) return `${hours} hours ago`;
+  if (days === 1) return 'yesterday';
+  if (days < 7) return `${days} days ago`;
+  return date.toLocaleDateString();
+};
 import { db } from '@/lib/firebase';
 import type { Message, TimePeriod, SortOption, Reply } from '@/types/message';
 import MessageActions from '@/components/MessageActions';
@@ -315,11 +332,11 @@ export default function BoardPage() {
                       </button>
                     </div>
                     <span className="text-white/40 sm:hidden">
-                      {message.createdAt?.toLocaleDateString()}
+                      {message.createdAt ? formatRelativeTime(message.createdAt) : ''}
                     </span>
                   </div>
                   <span className="hidden sm:inline text-white/40">
-                    {message.createdAt?.toLocaleDateString()}
+                    {message.createdAt ? formatRelativeTime(message.createdAt) : ''}
                   </span>
                 </div>
 
@@ -370,11 +387,11 @@ export default function BoardPage() {
                               downvotes={reply.downvotes}
                             />
                             <span className="text-white/40 sm:hidden">
-                              {reply.createdAt?.toLocaleDateString()}
+                              {reply.createdAt ? formatRelativeTime(reply.createdAt) : ''}
                             </span>
                           </div>
                           <span className="hidden sm:inline text-white/40">
-                            {reply.createdAt?.toLocaleDateString()}
+                            {reply.createdAt ? formatRelativeTime(reply.createdAt) : ''}
                           </span>
                         </div>
                       </div>
