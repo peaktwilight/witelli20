@@ -10,7 +10,7 @@ export type Reservation = {
 };
 
 export const ROOM_OPTIONS = {
-  'aula': 'Aula / Projector Room',
+  'foyer': 'Foyer / Projector Room',
   'party': 'Party Room'
 } as const;
 

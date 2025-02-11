@@ -8,7 +8,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - **Message Board**: Interactive board for student communications
 - **Fun Generator**: Custom content generation system
 - **Lost & Found**: System for tracking missing items & packages
-- **Room Reservations**: Book common spaces like Aula or Party Room
+- **Room Reservations**: Book common spaces like Foyer or Party Room
 
 ## Contributing
 

@@ -70,7 +70,7 @@ export default function Home() {
               />
               <h2 className="text-lg font-semibold mb-2">Room Reservations</h2>
               <p className="text-sm text-white/60">
-                Book Aula or Party Room in advance
+                Book Foyer or Party Room in advance
               </p>
             </Link>
 
