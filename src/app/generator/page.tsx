@@ -35,7 +35,7 @@ export default function GeneratorPage() {
   const [stories, setStories] = useState<Story[]>([]);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>('smart');
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
 
   // Load stories
   useEffect(() => {
