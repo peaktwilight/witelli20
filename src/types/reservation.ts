@@ -7,6 +7,7 @@ export type Reservation = {
   description: string;
   createdAt: string;
   status: 'upcoming' | 'past';
+  isOpenInvite?: boolean; // Whether the event is open for other residents to join
 };
 
 export const ROOM_OPTIONS = {

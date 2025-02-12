@@ -16,7 +16,8 @@ export default function ReservationsPage() {
     reserverRoom: '',
     startTime: '',
     endTime: '',
-    description: ''
+    description: '',
+    isOpenInvite: false
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -92,7 +93,7 @@ export default function ReservationsPage() {
 
       await addDoc(collection(db, 'reservations'), reservationData);
       setSuccess('Reservation created successfully!');
-      setFormData({ roomNumber: '', reserverRoom: '', startTime: '', endTime: '', description: '' });
+      setFormData({ roomNumber: '', reserverRoom: '', startTime: '', endTime: '', description: '', isOpenInvite: false });
       fetchReservations();
     } catch (err) {
       console.error('Error creating reservation:', err);
@@ -175,6 +176,11 @@ export default function ReservationsPage() {
                       Reserved by: Room {reservation.reserverRoom}
                     </p>
                     <p className="text-white/80 mt-2">{reservation.description}</p>
+                    {reservation.isOpenInvite && (
+                      <p className="text-green-400 text-sm mt-2">
+                        👋 Open invitation - Everyone is welcome to join!
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -266,6 +272,19 @@ export default function ReservationsPage() {
                 />
               </div>
 
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="isOpenInvite"
+                  checked={formData.isOpenInvite}
+                  onChange={(e) => setFormData({ ...formData, isOpenInvite: e.target.checked })}
+                  className="w-4 h-4 text-blue-600 bg-white/5 border-white/10 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="isOpenInvite" className="ml-2 text-sm font-medium text-white/80">
+                  Open invitation to the building (select this if everyone is welcome to join)
+                </label>
+              </div>
+
               {error && (
                 <div className="text-red-400 text-sm">{error}</div>
               )}
@@ -322,6 +341,11 @@ export default function ReservationsPage() {
                               <p className="text-white/60 text-sm mt-2">
                                 Reserved by: Room {reservation.reserverRoom}
                               </p>
+                              {reservation.isOpenInvite && (
+                                <p className="text-green-400 text-sm mt-2">
+                                  👋 Open invitation - Everyone is welcome to join!
+                                </p>
+                              )}
                             </div>
                           </div>
                         </motion.div>
@@ -372,6 +396,11 @@ export default function ReservationsPage() {
                         <p className="text-white/60 text-sm mt-2">
                         Reserved by: Room {reservation.reserverRoom}
                         </p>
+                        {reservation.isOpenInvite && (
+                          <p className="text-green-400 text-sm mt-2">
+                            👋 Open invitation - Everyone is welcome to join!
+                          </p>
+                        )}
                       </div>
                       </div>
                     </motion.div>
