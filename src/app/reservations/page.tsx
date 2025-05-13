@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, query, orderBy, getDocs, Timestamp } from 'firebase/firestore';
 import { Reservation, ROOM_OPTIONS, RoomType } from '@/types/reservation';
-import { Calendar, House } from '@phosphor-icons/react';
+import { Calendar, House, Warning } from '@phosphor-icons/react';
 import Link from 'next/link';
+import ReservationCalendar from '@/components/ReservationCalendar';
 
 export default function ReservationsPage() {
   const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -77,6 +78,33 @@ export default function ReservationsPage() {
       setError('Start time cannot be in the past');
       return;
     }
+    
+    // Check if reservation is longer than 24 hours
+    const durationMs = endDate.getTime() - startDate.getTime();
+    const durationHours = durationMs / (1000 * 60 * 60);
+    if (durationHours > 24) {
+      setError('Reservations cannot exceed 24 hours');
+      return;
+    }
+    
+    // Check for conflicting reservations
+    const conflicts = reservations.filter(res => {
+      if (res.roomNumber !== formData.roomNumber) return false;
+      
+      const resStart = new Date(res.startTime);
+      const resEnd = new Date(res.endTime);
+      
+      // Check if the new reservation overlaps with an existing one
+      return (
+        (startDate <= resEnd && endDate >= resStart) || 
+        (resStart <= endDate && resEnd >= startDate)
+      );
+    });
+    
+    if (conflicts.length > 0) {
+      setError(`This space is already reserved during this time period`);
+      return;
+    }
 
     // Validate room number format (only numbers)
     const roomNumberRegex = /^\d+$/;
@@ -100,12 +128,30 @@ export default function ReservationsPage() {
       setError('Failed to create reservation');
     }
   };
-
-  const formatDateTime = (dateStr: string) => {
-    return new Date(dateStr).toLocaleString('en-CH', {
-      dateStyle: 'full',
-      timeStyle: 'short'
-    });
+  
+  const formatTimeRange = (startStr: string, endStr: string) => {
+    const start = new Date(startStr);
+    const end = new Date(endStr);
+    
+    const options = { weekday: 'short', month: 'short', day: 'numeric' };
+    const startDate = start.toLocaleDateString('en-CH', options);
+    const endDate = end.toLocaleDateString('en-CH', options);
+    
+    const startTime = start.toLocaleTimeString('en-CH', { timeStyle: 'short' });
+    const endTime = end.toLocaleTimeString('en-CH', { timeStyle: 'short' });
+    
+    if (startDate === endDate) {
+      return `${startDate} · ${startTime}–${endTime}`;
+    } else {
+      // For overnight reservations
+      // If it's a late night to early morning booking, make it clearer
+      if (start.getHours() >= 18 && end.getHours() <= 12 && 
+          Math.abs(end.getTime() - start.getTime()) < 24 * 60 * 60 * 1000) {
+        return `${startDate} · ${startTime} → ${endTime} next day`;
+      } else {
+        return `${startDate} · ${startTime} →\n${endDate} · ${endTime}`;
+      }
+    }
   };
 
   const cardVariants = {
@@ -146,9 +192,13 @@ export default function ReservationsPage() {
           <div className="text-center mb-12">
             <Calendar size={48} weight="light" className="mx-auto mb-4 text-green-400" />
             <h1 className="text-3xl font-bold text-white mb-4">Room Reservations</h1>
-            <p className="text-white/80">
+            <p className="text-white/80 mb-2">
               Reserve the Foyer, Party Room, or Rooftop Terrace for your events. Reservations have priority over spontaneous usage.
             </p>
+            <div className="flex items-center justify-center gap-2 text-amber-400 text-sm mb-4">
+              <Warning size={20} weight="fill" />
+              <span>Reservations are limited to a maximum of 24 hours per booking</span>
+            </div>
           </div>
 
           {/* Currently Active Reservations */}
@@ -166,20 +216,22 @@ export default function ReservationsPage() {
                     key={reservation.id}
                     className="bg-black/20 rounded-lg p-4"
                   >
-                    <h3 className="text-white font-medium">
-                      {ROOM_OPTIONS[reservation.roomNumber as RoomType]} is currently reserved
+                    <h3 className="text-white font-medium flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                      {ROOM_OPTIONS[reservation.roomNumber as RoomType]}
                     </h3>
-                    <p className="text-white/80">
-                      Until: {formatDateTime(reservation.endTime)}
-                    </p>
-                    <p className="text-white/60 text-sm mt-2">
-                      Reserved by: Room {reservation.reserverRoom}
+                    <p className="text-white/80 whitespace-pre-line">
+                      {formatTimeRange(reservation.startTime, reservation.endTime)}
                     </p>
                     <p className="text-white/80 mt-2">{reservation.description}</p>
+                    <div className="flex items-center mt-2 gap-2 text-white/60 text-sm">
+                      <span className="px-2 py-0.5 bg-white/10 rounded">Room {reservation.reserverRoom}</span>
+                    </div>
                     {reservation.isOpenInvite && (
-                      <p className="text-green-400 text-sm mt-2">
-                        👋 Open invitation - Everyone is welcome to join!
-                      </p>
+                      <div className="text-green-400 text-sm mt-2 flex items-center gap-2">
+                        <span className="px-2 py-0.5 bg-green-500/20 text-green-300 rounded">Open invite</span>
+                        <span>Everyone is welcome to join!</span>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -286,10 +338,15 @@ export default function ReservationsPage() {
               </div>
 
               {error && (
-                <div className="text-red-400 text-sm">{error}</div>
+                <div className="text-red-400 text-sm p-2 bg-red-400/10 rounded-lg border border-red-400/20 mt-2">
+                  <div className="flex items-center gap-2">
+                    <Warning size={16} weight="fill" />
+                    <span>{error}</span>
+                  </div>
+                </div>
               )}
               {success && (
-                <div className="text-green-400 text-sm">{success}</div>
+                <div className="text-green-400 text-sm p-2 bg-green-400/10 rounded-lg border border-green-400/20 mt-2">{success}</div>
               )}
 
               <button
@@ -300,6 +357,9 @@ export default function ReservationsPage() {
               </button>
             </form>
           </motion.div>
+
+          {/* Reservation Calendar */}
+          <ReservationCalendar reservations={reservations} />
 
           {/* Reservations List */}
           <div className="space-y-8">
@@ -331,20 +391,18 @@ export default function ReservationsPage() {
                               <h3 className="text-white font-medium">
                                 {ROOM_OPTIONS[reservation.roomNumber as RoomType]}
                               </h3>
-                              <p className="text-white/60 text-sm">
-                                From: {formatDateTime(reservation.startTime)}
-                              </p>
-                              <p className="text-white/60 text-sm">
-                                To: {formatDateTime(reservation.endTime)}
+                              <p className="text-white/80 whitespace-pre-line">
+                                {formatTimeRange(reservation.startTime, reservation.endTime)}
                               </p>
                               <p className="text-white/80 mt-2">{reservation.description}</p>
-                              <p className="text-white/60 text-sm mt-2">
-                                Reserved by: Room {reservation.reserverRoom}
-                              </p>
+                              <div className="flex items-center mt-2 gap-2 text-white/60 text-sm">
+                                <span className="px-2 py-0.5 bg-white/10 rounded">Room {reservation.reserverRoom}</span>
+                              </div>
                               {reservation.isOpenInvite && (
-                                <p className="text-green-400 text-sm mt-2">
-                                  👋 Open invitation - Everyone is welcome to join!
-                                </p>
+                                <div className="text-green-400 text-sm mt-2 flex items-center gap-2">
+                                  <span className="px-2 py-0.5 bg-green-500/20 text-green-300 rounded">Open invite</span>
+                                  <span>Everyone is welcome to join!</span>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -386,20 +444,18 @@ export default function ReservationsPage() {
                         <h3 className="text-white font-medium">
                         {ROOM_OPTIONS[reservation.roomNumber as RoomType]}
                         </h3>
-                        <p className="text-white/60 text-sm">
-                        From: {formatDateTime(reservation.startTime)}
-                        </p>
-                        <p className="text-white/60 text-sm">
-                        To: {formatDateTime(reservation.endTime)}
+                        <p className="text-white/80 whitespace-pre-line">
+                        {formatTimeRange(reservation.startTime, reservation.endTime)}
                         </p>
                         <p className="text-white/80 mt-2">{reservation.description}</p>
-                        <p className="text-white/60 text-sm mt-2">
-                        Reserved by: Room {reservation.reserverRoom}
-                        </p>
+                        <div className="flex items-center mt-2 gap-2 text-white/60 text-sm">
+                          <span className="px-2 py-0.5 bg-white/10 rounded">Room {reservation.reserverRoom}</span>
+                        </div>
                         {reservation.isOpenInvite && (
-                          <p className="text-green-400 text-sm mt-2">
-                            👋 Open invitation - Everyone is welcome to join!
-                          </p>
+                          <div className="text-green-400 text-sm mt-2 flex items-center gap-2">
+                            <span className="px-2 py-0.5 bg-green-500/20 text-green-300 rounded">Open invite</span>
+                            <span>Everyone is welcome to join!</span>
+                          </div>
                         )}
                       </div>
                       </div>

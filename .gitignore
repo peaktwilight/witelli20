@@ -41,3 +41,4 @@ ui-debug.log
 
 # claude
 claude.md
+**/.claude/settings.local.json

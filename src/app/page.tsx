@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Bus, ChatTeardrop, Robot, WarningOctagon, Calendar, Cloud } from '@phosphor-icons/react';
+import { Bus, ChatTeardrop, WarningOctagon, Calendar } from '@phosphor-icons/react';
 import FAQ from '@/components/FAQ';
 import QuickLinks from '@/components/QuickLinks';
+import WeatherWidget from '@/components/WeatherWidget';
 
 export default function Home() {
   return (
@@ -27,97 +28,75 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Main Navigation Cards */}
-          <div className="grid sm:grid-cols-2 gap-6 mb-16">
-            <Link 
-              href="/transport"
-              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
-            >
-              <Bus 
-                size={32}
-                weight="light"
-                className="mb-3 text-blue-400 group-hover:scale-110 transition-transform duration-200"
-              />
-              <h2 className="text-lg font-semibold mb-2">Transport</h2>
-              <p className="text-sm text-white/60">
-                Live departures and connections
-              </p>
-            </Link>
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            {/* Large cards (take up 2 columns on md screens) */}
+            <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <Link
+                href="/reservations"
+                className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+              >
+                <Calendar
+                  size={32}
+                  weight="light"
+                  className="mb-3 text-green-400 group-hover:scale-110 transition-transform duration-200"
+                />
+                <h2 className="text-lg font-semibold mb-2">Room Reservations</h2>
+                <p className="text-sm text-white/60">
+                  Book common spaces in advance
+                </p>
+              </Link>
+              
+              <Link 
+                href="/transport"
+                className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+              >
+                <Bus 
+                  size={32}
+                  weight="light"
+                  className="mb-3 text-blue-400 group-hover:scale-110 transition-transform duration-200"
+                />
+                <h2 className="text-lg font-semibold mb-2">Transport</h2>
+                <p className="text-sm text-white/60">
+                  Live departures and connections
+                </p>
+              </Link>
 
-            <Link 
-              href="/board"
-              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
-            >
-              <ChatTeardrop 
-                size={32}
-                weight="light"
-                className="mb-3 text-purple-400 group-hover:scale-110 transition-transform duration-200"
-              />
-              <h2 className="text-lg font-semibold mb-2">Confessions</h2>
-              <p className="text-sm text-white/60">
-                Anonymous community posts
-              </p>
-            </Link>
+              <Link
+                href="/stolen"
+                className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+              >
+                <WarningOctagon
+                  size={32}
+                  weight="light"
+                  className="mb-3 text-red-400 group-hover:scale-110 transition-transform duration-200"
+                />
+                <h2 className="text-lg font-semibold mb-2">Lost & Found</h2>
+                <p className="text-sm text-white/60">
+                  Track missing items & packages
+                </p>
+              </Link>
 
-            <Link
-              href="/reservations"
-              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
-            >
-              <Calendar
-                size={32}
-                weight="light"
-                className="mb-3 text-green-400 group-hover:scale-110 transition-transform duration-200"
-              />
-              <h2 className="text-lg font-semibold mb-2">Room Reservations</h2>
-              <p className="text-sm text-white/60">
-                Book Foyer or Party Room in advance
-              </p>
-            </Link>
+              <Link 
+                href="/board"
+                className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
+              >
+                <ChatTeardrop 
+                  size={32}
+                  weight="light"
+                  className="mb-3 text-purple-400 group-hover:scale-110 transition-transform duration-200"
+                />
+                <h2 className="text-lg font-semibold mb-2">Confessions</h2>
+                <p className="text-sm text-white/60">
+                  Anonymous community posts
+                </p>
+              </Link>
+            </div>
 
-            <Link
-              href="/stolen"
-              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
-            >
-              <WarningOctagon
-                size={32}
-                weight="light"
-                className="mb-3 text-red-400 group-hover:scale-110 transition-transform duration-200"
-              />
-              <h2 className="text-lg font-semibold mb-2">Lost & Found</h2>
-              <p className="text-sm text-white/60">
-                Track missing items & packages
-              </p>
-            </Link>
-
-            <Link
-              href="/weather"
-              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
-            >
-              <Cloud
-                size={32}
-                weight="light"
-                className="mb-3 text-blue-400 group-hover:scale-110 transition-transform duration-200"
-              />
-              <h2 className="text-lg font-semibold mb-2">Weather</h2>
-              <p className="text-sm text-white/60">
-                Local forecast for Balgrist
-              </p>
-            </Link>
-
-            <Link
-              href="/generator"
-              className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
-            >
-              <Robot
-                size={32}
-                weight="light"
-                className="mb-3 text-yellow-400 group-hover:scale-110 transition-transform duration-200"
-              />
-              <h2 className="text-lg font-semibold mb-2">AI Stories</h2>
-              <p className="text-sm text-white/60">
-                AI-generated WG humor by Gemini
-              </p>
-            </Link>
+            {/* Weather widget (right side on md screens) */}
+            <div className="md:row-span-1">
+              <WeatherWidget />
+            </div>
           </div>
 
           {/* Quick Links and FAQ Sections */}
