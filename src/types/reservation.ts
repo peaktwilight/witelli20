@@ -12,7 +12,8 @@ export type Reservation = {
 
 export const ROOM_OPTIONS = {
   'foyer': 'Foyer / Projector Room',
-  'party': 'Party Room'
+  'party': 'Party Room',
+  'rooftop': 'Rooftop Terrace'
 } as const;
 
 export type RoomType = keyof typeof ROOM_OPTIONS;

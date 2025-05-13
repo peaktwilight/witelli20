@@ -147,7 +147,7 @@ export default function ReservationsPage() {
             <Calendar size={48} weight="light" className="mx-auto mb-4 text-green-400" />
             <h1 className="text-3xl font-bold text-white mb-4">Room Reservations</h1>
             <p className="text-white/80">
-              Reserve the Foyer or Party Room for your events. Reservations have priority over spontaneous usage.
+              Reserve the Foyer, Party Room, or Rooftop Terrace for your events. Reservations have priority over spontaneous usage.
             </p>
           </div>
 
