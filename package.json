@@ -10,7 +10,6 @@
     "migrate-messages": "ts-node scripts/migrate-messages.ts"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
     "@heroicons/react": "^2.2.0",
     "@phosphor-icons/react": "^2.1.7",
     "axios": "^1.7.9",

@@ -17,14 +17,6 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
-    // Allow read/write access to stories collection and its comments
-    match /stories/{storyId} {
-      allow read, write: if true;
-      
-      match /comments/{commentId} {
-        allow read, write: if true;
-      }
-    }
     
     // Default deny all other access
     match /{document=**} {
