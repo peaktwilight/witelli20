@@ -30,8 +30,13 @@ export default function Home() {
 
           {/* Main Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            {/* Weather widget (first on mobile, right side on md screens) */}
+            <div className="order-first md:order-last md:row-span-1">
+              <WeatherWidget />
+            </div>
+            
             {/* Large cards (take up 2 columns on md screens) */}
-            <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="order-last md:order-first md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
               <Link
                 href="/reservations"
                 className="group relative bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-200 rounded-xl p-6 text-white"
@@ -91,11 +96,6 @@ export default function Home() {
                   Anonymous community posts
                 </p>
               </Link>
-            </div>
-
-            {/* Weather widget (right side on md screens) */}
-            <div className="md:row-span-1">
-              <WeatherWidget />
             </div>
           </div>
 
