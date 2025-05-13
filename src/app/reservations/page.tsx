@@ -133,12 +133,17 @@ export default function ReservationsPage() {
     const start = new Date(startStr);
     const end = new Date(endStr);
     
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { 
+      weekday: 'short', 
+      month: 'short', 
+      day: 'numeric' 
+    };
     const startDate = start.toLocaleDateString('en-CH', options);
     const endDate = end.toLocaleDateString('en-CH', options);
     
-    const startTime = start.toLocaleTimeString('en-CH', { timeStyle: 'short' });
-    const endTime = end.toLocaleTimeString('en-CH', { timeStyle: 'short' });
+    const timeOptions: Intl.DateTimeFormatOptions = { timeStyle: 'short' };
+    const startTime = start.toLocaleTimeString('en-CH', timeOptions);
+    const endTime = end.toLocaleTimeString('en-CH', timeOptions);
     
     if (startDate === endDate) {
       return `${startDate} · ${startTime}–${endTime}`;

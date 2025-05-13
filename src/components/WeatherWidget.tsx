@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getWeatherForecast, getWeatherDescription, type WeatherForecast } from '@/lib/weatherApi';
-import { Cloud, Sun, CloudRain, Wind, Umbrella } from '@phosphor-icons/react';
+import { Cloud, Sun, CloudRain, Umbrella } from '@phosphor-icons/react';
 import Link from 'next/link';
 
 function WeatherIcon({ code, size = 24 }: { code: number; size?: number }) {
