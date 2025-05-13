@@ -1,68 +1,98 @@
-# Contributing to Witelli20
+# Contributing Guide
 
-Thank you for considering contributing to the Witelli20 Student Portal! This document provides guidelines and instructions for contributing.
+Thank you for considering contributing to the Witelli20 Student Portal! Your contributions help make this platform better for student communities.
 
 ## Code of Conduct
 
-Please be respectful and considerate of others when contributing to this project. We welcome contributors from all backgrounds and skill levels.
+We are committed to providing a welcoming and inclusive experience for everyone. We expect all participants to adhere to the following guidelines:
 
-## How to Contribute
+- Be respectful and inclusive of all contributors
+- Use welcoming and inclusive language
+- Gracefully accept constructive criticism
+- Focus on what is best for the community
+- Show empathy towards community members
 
-1. **Find an Issue**: Look for open issues or create a new one describing the feature or bug you want to work on.
+## Development Workflow
 
-2. **Fork the Repository**: Create your own fork of the repository.
+### Getting Started
 
-3. **Create a Branch**: Create a new branch for your contribution.
+1. **Fork the Repository** on GitHub
+2. **Clone your Fork**
    ```bash
-   git checkout -b feature/your-feature-name
+   git clone https://github.com/YOUR-USERNAME/witelli20.git
+   cd witelli20
+   ```
+3. **Set up the Environment**
+   ```bash
+   npm install
+   cp .env.example .env.local    # Then edit .env.local with your credentials
+   ```
+4. **Create a Branch** for your feature or fix
+   ```bash
+   git checkout -b feature/descriptive-name
    ```
 
-4. **Make Changes**: Implement your feature or fix the bug.
+### Making Changes
 
-5. **Follow Coding Standards**:
+1. **Follow Coding Standards**
    - Use consistent indentation (2 spaces)
    - Follow TypeScript best practices
-   - Use descriptive variable and function names
-   - Add comments for complex logic
+   - Keep components focused and modular
+   - Use meaningful variable and function names
+   - Comment complex logic
 
-6. **Test Your Changes**: Make sure your changes work as expected.
+2. **Test Thoroughly**
    ```bash
-   npm run dev
+   npm run dev          # Start development server
+   npm run lint         # Run linting
+   npm run build        # Test production build
    ```
 
-7. **Commit Changes**: Write clear commit messages.
+3. **Commit Your Changes** using descriptive commit messages
    ```bash
-   git commit -m "Add feature: your feature description"
+   git commit -m "feat: add room calendar view component"
    ```
 
-8. **Push Changes**: Push your changes to your fork.
+   We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+   - `feat:` - A new feature
+   - `fix:` - A bug fix
+   - `docs:` - Documentation changes
+   - `style:` - Code style changes (formatting, etc)
+   - `refactor:` - Code changes that neither fix bugs nor add features
+   - `perf:` - Performance improvements
+   - `test:` - Adding or updating tests
+   - `chore:` - Changes to the build process or tools
+
+4. **Push to Your Fork**
    ```bash
-   git push origin feature/your-feature-name
+   git push origin feature/descriptive-name
    ```
 
-9. **Create a Pull Request**: Submit a pull request from your fork to the main repository.
+5. **Submit a Pull Request** against the `main` branch of the original repository
 
-## Pull Request Guidelines
+### Pull Request Guidelines
 
-- Provide a clear description of the changes
-- Link to any related issues
-- Make sure all tests pass
-- Keep pull requests focused on a single feature or bug fix
-
-## Development Setup
-
-See the [README.md](README.md) file for instructions on setting up the development environment.
+- Fill in the PR template completely
+- Reference any relevant issues
+- Include screenshots for UI changes
+- Update documentation if needed
+- Keep PRs focused on a single change
+- Make sure CI passes before requesting review
 
 ## Firebase Setup
 
-If you're contributing features that require Firebase, you'll need to:
+If your contribution requires Firebase access:
 
-1. Create a Firebase project
-2. Set up Firestore
-3. Configure your environment variables
+1. Create a personal Firebase project for development
+2. Use the Firestore rules from this project
+3. Configure your `.env.local` with your project credentials
 
-## Questions?
+## Need Help?
 
-If you have any questions about contributing, feel free to open an issue for discussion.
+If you need help with your contribution:
 
-Thank you for helping improve Witelli20!
+1. Check out the [README.md](README.md) for setup instructions
+2. Look for existing issues or create a new one
+3. Ask for clarification in your PR if needed
+
+Thank you for contributing to Witelli20!

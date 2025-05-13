@@ -1,0 +1,15 @@
+# These owners will be the default owners for everything in the repo
+* @peaktwilight
+
+# Frontend files
+/src/app/ @peaktwilight
+/src/components/ @peaktwilight
+/src/types/ @peaktwilight
+
+# Backend files
+/src/lib/ @peaktwilight
+/scripts/ @peaktwilight
+/firestore.rules @peaktwilight
+
+# CI/CD configuration
+/.github/workflows/ @peaktwilight

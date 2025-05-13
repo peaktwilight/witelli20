@@ -125,11 +125,50 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Releases and Versioning
+
+### Creating a New Release
+
+The project includes automated tooling for managing releases:
+
+1. Make your changes and commit them
+2. Run the release script:
+   ```bash
+   npm run release
+   ```
+3. This will:
+   - Update the version in package.json
+   - Update the version in .env.local
+   - Create a git tag
+   - Push changes and tag to GitHub
+   - Trigger the GitHub Actions workflow to create a release
+
+### Manual Release Process
+
+For more control over the release:
+
+1. Update version:
+   ```bash
+   npm version patch  # or minor or major
+   ```
+
+2. Push with tags:
+   ```bash
+   git push --follow-tags
+   ```
+
+3. Or use GitHub CLI:
+   ```bash
+   gh release create v0.1.x --title "Release title" --notes "Release notes"
+   ```
+
+View all releases on the [GitHub Releases page](https://github.com/peaktwilight/witelli20/releases).
+
 ## Deployment
 
 The project can be deployed on various platforms:
 
-### Firebase Hosting (Recommended)
+### Firebase Hosting
 
 1. Install Firebase CLI:
    ```bash
@@ -159,9 +198,14 @@ The project can be deployed on various platforms:
    firebase deploy
    ```
 
-### Vercel
+### Vercel (Recommended)
 
-This project can also be easily deployed on [Vercel](https://vercel.com/), the platform from the creators of Next.js.
+This project can be easily deployed on [Vercel](https://vercel.com/):
+
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Configure the environment variables
+4. Vercel will automatically deploy when you push to main
 
 ## License
 
