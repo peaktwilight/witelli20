@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate-messages": "ts-node scripts/migrate-messages.ts"
+    "migrate-messages": "ts-node scripts/migrate-messages.ts",
+    "version": "node scripts/update-version.js && git add .",
+    "release": "npm version patch && git push --follow-tags"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
