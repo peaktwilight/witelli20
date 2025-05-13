@@ -1,8 +1,9 @@
 # Witelli20 Student Portal
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI Status](https://github.com/peaktwilight/witelli20/workflows/CI/badge.svg)](https://github.com/peaktwilight/witelli20/actions)
-[![Release](https://img.shields.io/github/v/release/peaktwilight/witelli20?include_prereleases)](https://github.com/peaktwilight/witelli20/releases)
+[![Open Source](https://img.shields.io/badge/Open-Source-green.svg)](https://github.com/peaktwilight/witelli20)
+[![GitHub Stars](https://img.shields.io/github/stars/peaktwilight/witelli20)](https://github.com/peaktwilight/witelli20/stargazers)
+[![GitHub Releases](https://img.shields.io/github/v/release/peaktwilight/witelli20)](https://github.com/peaktwilight/witelli20/releases)
 
 A modern, responsive web application for student housing communities, featuring real-time transport information, room reservations, message boards, and more. Built with Next.js, Firebase, and Tailwind CSS.
 
@@ -28,7 +29,7 @@ A modern, responsive web application for student housing communities, featuring 
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/witelli20.git
+   git clone https://github.com/peaktwilight/witelli20.git
    cd witelli20
    ```
 
