@@ -22,6 +22,8 @@ export default function ReservationsPage() {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [pastPage, setPastPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     fetchReservations();
@@ -164,7 +166,7 @@ export default function ReservationsPage() {
     visible: { opacity: 1, y: 0 }
   };
 
-  // Get currently active reservations
+  // Reservation filter helpers
   const getCurrentlyActive = () => {
     const now = new Date();
     return reservations.filter(res => {
@@ -174,7 +176,20 @@ export default function ReservationsPage() {
     });
   };
 
+  const getPastReservations = () => {
+    return reservations
+      .filter(res => res.status === 'past')
+      .sort((a, b) => new Date(b.endTime).getTime() - new Date(a.endTime).getTime());
+  };
+
+  const getUpcomingReservations = () => {
+    return reservations
+      .filter(res => res.status === 'upcoming' && !getCurrentlyActive().find(active => active.id === res.id));
+  };
+
   const activeReservations = getCurrentlyActive();
+  const pastReservations = getPastReservations();
+  const upcomingReservations = getUpcomingReservations();
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
@@ -380,16 +395,15 @@ export default function ReservationsPage() {
                 <p className="text-white/60">Loading...</p>
               ) : (
                 <div className="space-y-4">
-                  <AnimatePresence>
-                    {reservations
-                      .filter(res => res.status === 'upcoming' && !getCurrentlyActive().find(active => active.id === res.id))
-                      .map(reservation => (
+                  <AnimatePresence mode="wait">
+                    <div key="upcoming">
+                      {upcomingReservations.map(reservation => (
                         <motion.div
                           key={reservation.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 20 }}
-                          className="bg-white/5 rounded-lg p-4"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="bg-white/5 rounded-lg p-4 mb-4"
                         >
                           <div className="flex justify-between items-start">
                             <div>
@@ -413,8 +427,9 @@ export default function ReservationsPage() {
                           </div>
                         </motion.div>
                       ))}
+                    </div>
                   </AnimatePresence>
-                  {reservations.filter(res => res.status === 'upcoming' && !getCurrentlyActive().find(active => active.id === res.id)).length === 0 && (
+                  {upcomingReservations.length === 0 && (
                     <p className="text-white/60">No upcoming reservations</p>
                   )}
                 </div>
@@ -430,47 +445,100 @@ export default function ReservationsPage() {
               >
                 <h2 className="text-xl font-semibold text-white mb-4">Past Reservations</h2>
                 {loading ? (
-                <p className="text-white/60">Loading...</p>
+                  <p className="text-white/60">Loading...</p>
                 ) : (
-                <div className="space-y-4">
-                  <AnimatePresence>
-                  {reservations
-                    .filter(res => res.status === 'past')
-                    .map(reservation => (
-                    <motion.div
-                      key={reservation.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      className="bg-white/5 rounded-lg p-4"
-                    >
-                      <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-white font-medium">
-                        {ROOM_OPTIONS[reservation.roomNumber as RoomType]}
-                        </h3>
-                        <p className="text-white/80 whitespace-pre-line">
-                        {formatTimeRange(reservation.startTime, reservation.endTime)}
-                        </p>
-                        <p className="text-white/80 mt-2">{reservation.description}</p>
-                        <div className="flex items-center mt-2 gap-2 text-white/60 text-sm">
-                          <span className="px-2 py-0.5 bg-white/10 rounded">Room {reservation.reserverRoom}</span>
+                  <>
+                    <div className="space-y-4">
+                      <AnimatePresence mode="wait">
+                        <div key={pastPage}>
+                          {pastReservations
+                            .slice((pastPage - 1) * ITEMS_PER_PAGE, pastPage * ITEMS_PER_PAGE)
+                            .map(reservation => (
+                              <motion.div
+                                key={reservation.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="bg-white/5 rounded-lg p-4 mb-4"
+                              >
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <h3 className="text-white font-medium">
+                                    {ROOM_OPTIONS[reservation.roomNumber as RoomType]}
+                                  </h3>
+                                  <p className="text-white/80 whitespace-pre-line">
+                                    {formatTimeRange(reservation.startTime, reservation.endTime)}
+                                  </p>
+                                  <p className="text-white/80 mt-2">{reservation.description}</p>
+                                  <div className="flex items-center mt-2 gap-2 text-white/60 text-sm">
+                                    <span className="px-2 py-0.5 bg-white/10 rounded">Room {reservation.reserverRoom}</span>
+                                  </div>
+                                  {reservation.isOpenInvite && (
+                                    <div className="text-green-400 text-sm mt-2 flex items-center gap-2">
+                                      <span className="px-2 py-0.5 bg-green-500/20 text-green-300 rounded">Open invite</span>
+                                      <span>Everyone is welcome to join!</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </motion.div>
+                          ))}
                         </div>
-                        {reservation.isOpenInvite && (
-                          <div className="text-green-400 text-sm mt-2 flex items-center gap-2">
-                            <span className="px-2 py-0.5 bg-green-500/20 text-green-300 rounded">Open invite</span>
-                            <span>Everyone is welcome to join!</span>
-                          </div>
-                        )}
-                      </div>
-                      </div>
-                    </motion.div>
-                    ))}
-                  </AnimatePresence>
-                  {reservations.filter(res => res.status === 'past').length === 0 && (
-                  <p className="text-white/60">No past reservations</p>
-                  )}
-                </div>
+                      </AnimatePresence>
+                      
+                      {pastReservations.length === 0 && (
+                        <p className="text-white/60">No past reservations</p>
+                      )}
+                    </div>
+                    
+                    {/* Pagination Controls */}
+                    {pastReservations.length > ITEMS_PER_PAGE && (
+                      <motion.div 
+                        key={`pagination-${pastPage}`}
+                        initial={{ opacity: 0.8 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex justify-center items-center space-x-4 mt-6"
+                      >
+                        <button
+                          onClick={() => setPastPage(prev => Math.max(prev - 1, 1))}
+                          disabled={pastPage === 1}
+                          className={`px-3 py-1 rounded-md ${
+                            pastPage === 1 
+                              ? 'bg-white/5 text-white/30 cursor-not-allowed' 
+                              : 'bg-white/10 text-white hover:bg-white/20 transition-colors'
+                          }`}
+                        >
+                          Previous
+                        </button>
+                        
+                        <motion.span 
+                          key={pastPage}
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-white/80 px-2"
+                        >
+                          Page {pastPage} of {Math.ceil(pastReservations.length / ITEMS_PER_PAGE)}
+                        </motion.span>
+                        
+                        <button
+                          onClick={() => setPastPage(prev => Math.min(
+                            prev + 1, 
+                            Math.ceil(pastReservations.length / ITEMS_PER_PAGE)
+                          ))}
+                          disabled={pastPage >= Math.ceil(pastReservations.length / ITEMS_PER_PAGE)}
+                          className={`px-3 py-1 rounded-md ${
+                            pastPage >= Math.ceil(pastReservations.length / ITEMS_PER_PAGE)
+                              ? 'bg-white/5 text-white/30 cursor-not-allowed'
+                              : 'bg-white/10 text-white hover:bg-white/20 transition-colors'
+                          }`}
+                        >
+                          Next
+                        </button>
+                      </motion.div>
+                    )}
+                  </>
                 )}
               </motion.div>
               </div>
