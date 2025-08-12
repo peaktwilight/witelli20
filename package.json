@@ -16,7 +16,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
-    "firebase": "^11.10.0",
+    "firebase": "^12.1.0",
     "framer-motion": "^12.23.12",
     "next": "15.4.5",
     "react": "^19.1.1",
