@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Bus, ChatTeardrop, WarningOctagon, Calendar } from '@phosphor-icons/react';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import FAQ from '@/components/FAQ';
 import QuickLinks from '@/components/QuickLinks';
 import WeatherWidget from '@/components/WeatherWidget';
@@ -23,9 +24,15 @@ export default function Home() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="text-5xl md:text-6xl mb-4"
+              className="flex justify-center mb-6"
             >
-              🏠
+              <div className="w-48 h-48 md:w-64 md:h-64">
+                <DotLottieReact
+                  src="/student_building.lottie"
+                  loop
+                  autoplay
+                />
+              </div>
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 10 }}
