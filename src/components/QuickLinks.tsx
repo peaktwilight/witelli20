@@ -50,8 +50,8 @@ const ContactSection = ({ title, children, defaultOpen = false }: ContactSection
 export default function QuickLinks() {
   return (
     <ContactSection title="Important Contacts" defaultOpen={true}>
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-        <h3 className="font-semibold text-white mb-2">Janitor - Juan Vazquez</h3>
+      <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-xl">
+        <h3 className="font-semibold text-white mb-2 text-base md:text-lg">Janitor - Juan Vazquez</h3>
         <div className="text-white/80">
           <p>Available: Monday - Friday, 7:00 - 16:00</p>
           <p>Phone: 079 313 90 11</p>
@@ -69,8 +69,8 @@ export default function QuickLinks() {
         </div>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-        <h3 className="font-semibold text-white mb-2">House Representative - Luca Gschwind</h3>
+      <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-xl">
+        <h3 className="font-semibold text-white mb-2 text-base md:text-lg">House Representative - Luca Gschwind</h3>
         <div className="text-white/80">
           <p>First WOKO contact for students on-site</p>
           <div className="mt-2">
@@ -89,8 +89,8 @@ export default function QuickLinks() {
         </div>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-        <h3 className="font-semibold text-white mb-2">Emergency Services</h3>
+      <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-xl">
+        <h3 className="font-semibold text-white mb-2 text-base md:text-lg">Emergency Services</h3>
         <div className="space-y-4 text-white/80">
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
@@ -146,8 +146,8 @@ export default function QuickLinks() {
         </div>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-        <h3 className="font-semibold text-white mb-2">Report Non-Emergency Damage</h3>
+      <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-xl">
+        <h3 className="font-semibold text-white mb-2 text-base md:text-lg">Report Non-Emergency Damage</h3>
         <div className="text-white/80">
           <p>Submit damage reports through:</p>
           <a 

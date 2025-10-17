@@ -20,12 +20,12 @@ const FAQItem = ({ title, children, defaultOpen = false }: FAQItemProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden">
+    <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20 shadow-lg hover:shadow-xl transition-all">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-6 text-left flex items-center justify-between group hover:bg-white/5 transition-colors"
+        className="w-full p-5 md:p-6 text-left flex items-center justify-between group hover:bg-white/5 transition-colors"
       >
-        <h3 className="font-semibold text-white">{title}</h3>
+        <h3 className="font-semibold text-white text-sm md:text-base">{title}</h3>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
@@ -41,7 +41,7 @@ const FAQItem = ({ title, children, defaultOpen = false }: FAQItemProps) => {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="px-6 pb-6 text-white/80 space-y-4">
+            <div className="px-5 md:px-6 pb-5 md:pb-6 text-white/80 space-y-4 text-sm md:text-base">
               {children}
             </div>
           </motion.div>

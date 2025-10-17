@@ -34,13 +34,13 @@ export default function WeatherWidget() {
 
   if (isLoading) {
     return (
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5 h-full">
+      <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 h-full border border-white/20 shadow-xl">
         <div className="animate-pulse space-y-3">
-          <div className="h-6 bg-white/20 rounded w-1/3"></div>
-          <div className="h-10 bg-white/20 rounded w-1/2"></div>
+          <div className="h-6 bg-white/20 rounded-xl w-1/3"></div>
+          <div className="h-10 bg-white/20 rounded-xl w-1/2"></div>
           <div className="flex gap-2">
-            <div className="h-5 bg-white/20 rounded w-1/4"></div>
-            <div className="h-5 bg-white/20 rounded w-1/4"></div>
+            <div className="h-5 bg-white/20 rounded-xl w-1/4"></div>
+            <div className="h-5 bg-white/20 rounded-xl w-1/4"></div>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function WeatherWidget() {
 
   if (error || !forecast) {
     return (
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-5 flex flex-col items-center justify-center h-full">
+      <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 flex flex-col items-center justify-center h-full border border-white/20 shadow-xl">
         <Cloud size={32} className="text-white/50 mb-2" />
         <p className="text-white/70 text-sm">Weather not available</p>
       </div>
@@ -76,10 +76,10 @@ export default function WeatherWidget() {
   const currentWeather = nextHours[0];
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white/10 backdrop-blur-sm rounded-xl p-5 h-full"
+      className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 h-full border border-white/20 shadow-xl hover:shadow-2xl hover:border-blue-400/30 transition-all"
     >
       <Link href="/weather" className="block group">
         <div className="space-y-4">
