@@ -24,7 +24,7 @@ export default function Home() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.1 }}
-              className="flex justify-center mb-2"
+              className="flex justify-center -mb-4"
             >
               <div className="w-72 h-72 md:w-96 md:h-96">
                 <DotLottieReact
