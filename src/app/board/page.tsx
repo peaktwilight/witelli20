@@ -316,10 +316,10 @@ export default function BoardPage() {
                   `}
                 >
                   {isSubmitting ? 'Posting...' : 'Post Anonymously'}
-                </button>
+                </motion.button>
               </div>
             </div>
-          </form>
+          </motion.form>
 
           {/* Messages */}
           <div className="space-y-4">
