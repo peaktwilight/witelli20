@@ -24,7 +24,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-3xl md:text-5xl font-bold text-white"
+              className="text-5xl md:text-7xl font-bold text-white"
             >
               Witelli<span className="text-blue-400">20</span>
             </motion.h1>
