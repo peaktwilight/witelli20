@@ -26,9 +26,9 @@ export default function Home() {
               transition={{ delay: 0.1 }}
               className="flex justify-center mb-6"
             >
-              <div className="w-48 h-48 md:w-64 md:h-64">
+              <div className="w-72 h-72 md:w-96 md:h-96">
                 <DotLottieReact
-                  src="/student_building.lottie"
+                  src="/students_speaking.lottie"
                   loop
                   autoplay
                 />
