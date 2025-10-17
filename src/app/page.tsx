@@ -24,7 +24,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6"
+              className="text-3xl md:text-5xl font-bold text-white"
             >
               Witelli<span className="text-blue-400">20</span>
             </motion.h1>
@@ -33,9 +33,9 @@ export default function Home() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="flex justify-center my-6 md:my-8"
+              className="flex justify-center -my-8 md:-my-12"
             >
-              <div className="w-64 h-64 md:w-80 md:h-80">
+              <div className="w-96 h-96 md:w-[32rem] md:h-[32rem]">
                 <DotLottieReact
                   src="/students_speaking.lottie"
                   loop
