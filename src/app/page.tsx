@@ -20,13 +20,22 @@ export default function Home() {
           className="max-w-6xl mx-auto"
         >
           <div className="text-center mb-12 md:mb-16">
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6"
+            >
+              Witelli<span className="text-blue-400">20</span>
+            </motion.h1>
+
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="flex justify-center -mb-4"
+              transition={{ delay: 0.2 }}
+              className="flex justify-center my-6 md:my-8"
             >
-              <div className="w-72 h-72 md:w-96 md:h-96">
+              <div className="w-64 h-64 md:w-80 md:h-80">
                 <DotLottieReact
                   src="/students_speaking.lottie"
                   loop
@@ -34,14 +43,7 @@ export default function Home() {
                 />
               </div>
             </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6"
-            >
-              Witelli<span className="text-blue-400">20</span>
-            </motion.h1>
+
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
