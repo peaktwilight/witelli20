@@ -208,24 +208,28 @@ export default function BoardPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-      
+
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-lg bg-blue-900/80 border-b border-white/10">
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="sticky top-0 z-50 backdrop-blur-md bg-gradient-to-r from-blue-900/90 via-purple-900/90 to-indigo-900/90 border-b border-white/20 shadow-xl"
+      >
         <div className="container mx-auto px-4">
-          <div className="py-3 flex flex-col md:flex-row md:items-center gap-4 md:gap-0 md:justify-between">
+          <div className="py-4 flex flex-col md:flex-row md:items-center gap-4 md:gap-0 md:justify-between">
             <div className="flex items-center gap-4">
               <Link
                 href="/"
-                className="p-2 -ml-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                className="p-2 -ml-2 text-white/70 hover:text-white transition-all rounded-xl hover:bg-white/10"
               >
                 <House size={24} weight="light" />
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-                  <ChatCircle size={24} weight="light" className="text-purple-400" />
+                <h1 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                  <ChatCircle size={28} weight="light" className="text-purple-400" />
                   Witelli Confessions
                 </h1>
-                <p className="text-sm text-white/60">Anonymous messages for Witelli residents</p>
+                <p className="text-xs md:text-sm text-white/70">Anonymous messages for Witelli residents</p>
               </div>
             </div>
 
@@ -236,25 +240,25 @@ export default function BoardPage() {
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value as SortOption)}
-                  className="w-full bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  className="w-full bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
                 >
                   {sortOptions.map((option) => (
-                    <option key={option.value} value={option.value} className="bg-blue-900">
+                    <option key={option.value} value={option.value} className="bg-gray-900">
                       {option.label}
                     </option>
                   ))}
                 </select>
               </div>
-              
+
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Clock size={20} weight="light" className="text-white/60 shrink-0" />
                 <select
                   value={timePeriod}
                   onChange={(e) => setTimePeriod(e.target.value as TimePeriod)}
-                  className="w-full bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  className="w-full bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
                 >
                   {timeFilters.map((filter) => (
-                    <option key={filter.value} value={filter.value} className="bg-blue-900">
+                    <option key={filter.value} value={filter.value} className="bg-gray-900">
                       {filter.label}
                     </option>
                   ))}
@@ -263,40 +267,51 @@ export default function BoardPage() {
             </div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="max-w-2xl mx-auto">
+      <div className="container mx-auto px-4 py-6 md:py-8">
+        <div className="max-w-3xl mx-auto">
           {/* Error Display */}
           {error && (
-            <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-200">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-200"
+            >
               {error}
-            </div>
+            </motion.div>
           )}
 
           {/* New Message Form */}
-          <form onSubmit={(e) => handleSubmit(e)} className="mb-8">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onSubmit={(e) => handleSubmit(e)}
+            className="mb-8"
+          >
+            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-xl">
               <textarea
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Share your anonymous confession or message..."
-                className="w-full bg-white/5 rounded-lg p-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/50 resize-none"
-                rows={3}
+                className="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none transition-all"
+                rows={4}
               />
-              <div className="mt-3 flex flex-col-reverse sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-center">
-                <p className="text-sm text-white/40 text-center sm:text-left">
+              <div className="mt-4 flex flex-col-reverse sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-center">
+                <p className="text-xs md:text-sm text-white/50 text-center sm:text-left">
                   Your message will be posted anonymously
                 </p>
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
                   className={`
-                    w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-medium
+                    w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-semibold shadow-lg transition-all
                     ${isSubmitting
-                      ? 'bg-purple-500/50 text-white/50'
-                      : 'bg-purple-500 text-white hover:bg-purple-400 transition-colors'
+                      ? 'bg-purple-500/50 text-white/50 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 shadow-purple-500/20'
                     }
                   `}
                 >
