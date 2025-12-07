@@ -5,17 +5,51 @@
 [![GitHub Stars](https://img.shields.io/github/stars/peaktwilight/witelli20)](https://github.com/peaktwilight/witelli20/stargazers)
 [![GitHub Releases](https://img.shields.io/github/v/release/peaktwilight/witelli20)](https://github.com/peaktwilight/witelli20/releases)
 
-A modern, responsive web application for student housing communities, featuring real-time transport information, room reservations, message boards, and more. Built with Next.js, Firebase, and Tailwind CSS.
+A modern, responsive web application for the Witellikerstrasse 20 student housing community in Zurich. Built with Next.js 15, React 19, Firebase, and Tailwind CSS, featuring real-time transport information, room reservations, community message boards, and weather integration.
 
 ![Witelli20 Screenshot](public/screenshot.png)
 
 ## Features
 
-- **Room Reservations**: Book common spaces like Foyer, Party Room or Rooftop Terrace
-- **Transport Information**: Real-time transport schedules and departures
-- **Lost & Found**: System for tracking missing items & packages
-- **Message Board**: Interactive board for student communications
-- **Weather**: Local weather forecast integration
+### Core Functionality
+- **Room Reservations** - Book common spaces (Foyer, Party Room, Rooftop Terrace) with calendar view
+- **Transport Information** - Real-time departures and schedules using Swiss Transport API
+- **Lost & Found** - System for tracking missing items and packages
+- **Community Board** - Anonymous confession board for student communications
+- **Weather Integration** - Local weather forecasts and conditions
+
+### Technical Highlights
+- Server-side rendering with Next.js 15 App Router
+- Real-time database with Firebase Firestore
+- Responsive design with Tailwind CSS
+- Smooth animations using Framer Motion
+- Modern React 19 features
+- TypeScript for type safety
+- Automated release management
+
+## Tech Stack
+
+### Frontend
+- **Framework**: [Next.js 15.4.8](https://nextjs.org/) with App Router
+- **UI Library**: [React 19.1.1](https://react.dev/)
+- **Styling**: [Tailwind CSS 3.4](https://tailwindcss.com/) with Typography plugin
+- **Animations**: [Framer Motion 12](https://www.framer.com/motion/)
+- **Icons**: [Phosphor Icons](https://phosphoricons.com/), [Heroicons](https://heroicons.com/)
+- **Markdown**: [React Markdown](https://github.com/remarkjs/react-markdown) with GFM support
+- **Animations**: [Lottie](https://lottiefiles.com/) via @lottiefiles/dotlottie-react
+
+### Backend & Services
+- **Database**: [Firebase Firestore](https://firebase.google.com/docs/firestore)
+- **APIs**: Swiss Transport API, Weather API
+- **HTTP Client**: [Axios 1.11](https://axios-http.com/)
+- **Date Handling**: [date-fns 4.1](https://date-fns.org/)
+
+### Development
+- **Language**: [TypeScript 5](https://www.typescriptlang.org/)
+- **Linting**: ESLint 9 with Next.js config
+- **Build Tool**: Next.js with Turbopack (dev mode)
+- **Package Manager**: npm
+- **Node Version**: 20.x or later
 
 ## Getting Started
 
@@ -23,191 +57,259 @@ A modern, responsive web application for student housing communities, featuring 
 
 - Node.js 20.x or later
 - npm or yarn
-- Firebase account (for database functionality)
+- Firebase account (for database and authentication)
 
 ### Installation
 
-1. Clone the repository
+1. **Clone the repository**
    ```bash
    git clone https://github.com/peaktwilight/witelli20.git
    cd witelli20
    ```
 
-2. Install dependencies
+2. **Install dependencies**
    ```bash
    npm install
    # or
    yarn install
    ```
 
-3. Set up environment variables
-   - Copy `.env.example` to `.env.local`
-   - Fill in your Firebase configuration details
+3. **Configure environment variables**
 
-4. Start the development server
+   Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Then edit `.env.local` with your Firebase configuration:
+   ```env
+   NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+   NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+   NEXT_PUBLIC_APP_VERSION=0.1.0
+   ```
+
+4. **Start the development server**
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
+5. **Open your browser**
 
-## Environment Variables
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-Create a `.env.local` file in the root directory with the following variables:
+### Available Scripts
 
-```
-NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-```
-
-## Contributing
-
-This is an open source project, and contributions are welcome from anyone! Whether you want to fix bugs, add new features, improve documentation, or suggest ideas - your contributions are appreciated.
-
-### How to Contribute
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/YourFeature`)
-3. Make your changes
-4. Commit your changes (`git commit -m 'Add some feature'`)
-5. Push to the branch (`git push origin feature/YourFeature`)
-6. Open a Pull Request
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run migrate-messages` - Run message migration script
+- `npm run release` - Automated release (version bump, tag, push)
 
 ## Project Structure
 
 ```
-src/
-├── app/                   # Next.js app router pages
-│   ├── api/              # API routes
-│   ├── board/            # Message board
-│   ├── reservations/     # Room reservation system
-│   ├── stolen/           # Lost & found tracking
-│   ├── transport/        # Transport information
-│   └── weather/          # Weather forecast
-├── components/           # Reusable React components
-├── lib/                  # Utility functions and APIs
-│   ├── firebase.ts       # Firebase configuration
-│   ├── transportApi.ts   # Transport API integration
-│   └── weatherApi.ts     # Weather API integration
-└── types/                # TypeScript type definitions
+witelli20/
+├── src/
+│   ├── app/                    # Next.js App Router pages
+│   │   ├── api/               # API route handlers
+│   │   ├── board/             # Community message board
+│   │   ├── reservations/      # Room reservation system
+│   │   ├── stolen/            # Lost & found tracker
+│   │   ├── transport/         # Transport information
+│   │   ├── weather/           # Weather forecast
+│   │   ├── layout.tsx         # Root layout
+│   │   ├── page.tsx           # Home page
+│   │   └── globals.css        # Global styles
+│   ├── components/            # Reusable React components
+│   │   ├── FAQ.tsx
+│   │   ├── QuickLinks.tsx
+│   │   ├── WeatherWidget.tsx
+│   │   └── ...
+│   ├── hooks/                 # Custom React hooks
+│   ├── lib/                   # Utilities and API clients
+│   │   ├── firebase.ts        # Firebase configuration
+│   │   ├── transportApi.ts    # Swiss Transport API
+│   │   └── weatherApi.ts      # Weather API integration
+│   └── types/                 # TypeScript type definitions
+├── public/                    # Static assets
+├── scripts/                   # Build and deployment scripts
+├── .github/                   # GitHub Actions workflows
+│   └── workflows/
+│       ├── ci.yml            # Continuous integration
+│       └── release.yml       # Release automation
+├── firebase.json              # Firebase configuration
+├── firestore.rules            # Firestore security rules
+├── firestore.indexes.json     # Firestore indexes
+├── next.config.ts             # Next.js configuration
+├── tailwind.config.ts         # Tailwind CSS configuration
+└── tsconfig.json              # TypeScript configuration
 ```
 
-## Key Components
+## Environment Variables
 
-- `TransportBoard`: Displays transport information and schedules
-- `StudentConnections`: Manages student transport connections 
-- `ReservationCalendar`: Calendar view of room reservations
-- `MessageActions`: Handles message-related actions
-- `WeatherWidget`: Displays local weather information
-- `QuickLinks`: Quick access to important resources
-- `FAQ`: Frequently asked questions component
+The application requires the following environment variables in `.env.local`:
 
-## Technologies Used
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | Firebase API key | Yes |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | Firebase auth domain | Yes |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | Firebase project ID | Yes |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | Firebase storage bucket | Yes |
+| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | Firebase messaging sender ID | Yes |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | Firebase app ID | Yes |
+| `NEXT_PUBLIC_APP_VERSION` | Application version | No |
 
-- [Next.js](https://nextjs.org/) - React framework
-- [Firebase](https://firebase.google.com/) - Backend and hosting
-- [Tailwind CSS](https://tailwindcss.com/) - Styling
-- [TypeScript](https://www.typescriptlang.org/) - Type safety
-- [Framer Motion](https://www.framer.com/motion/) - Animations
-- [Phosphor Icons](https://phosphoricons.com/) - Icon system
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Releases and Versioning
-
-### Creating a New Release
-
-The project includes automated tooling for managing releases:
-
-1. Make your changes and commit them
-2. Run the release script:
-   ```bash
-   npm run release
-   ```
-3. This will:
-   - Update the version in package.json
-   - Update the version in .env.local
-   - Create a git tag
-   - Push changes and tag to GitHub
-   - Trigger the GitHub Actions workflow to create a release
-
-### Manual Release Process
-
-For more control over the release:
-
-1. Update version:
-   ```bash
-   npm version patch  # or minor or major
-   ```
-
-2. Push with tags:
-   ```bash
-   git push --follow-tags
-   ```
-
-3. Or use GitHub CLI:
-   ```bash
-   gh release create v0.1.x --title "Release title" --notes "Release notes"
-   ```
-
-View all releases on the [GitHub Releases page](https://github.com/peaktwilight/witelli20/releases).
+**Note**: The Swiss Transport API used in the project does not require authentication.
 
 ## Deployment
 
-The project can be deployed on various platforms:
+### Vercel (Recommended)
+
+The easiest way to deploy this Next.js application:
+
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com/)
+3. Configure environment variables in project settings
+4. Deploy - Vercel will automatically build and deploy on every push to main
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/peaktwilight/witelli20)
 
 ### Firebase Hosting
 
-1. Install Firebase CLI:
+Alternative deployment option using Firebase:
+
+1. **Install Firebase CLI**
    ```bash
    npm install -g firebase-tools
    ```
 
-2. Login to Firebase:
+2. **Login to Firebase**
    ```bash
    firebase login
    ```
 
-3. Initialize Firebase (if not already done):
+3. **Initialize Firebase** (if not already done)
    ```bash
    firebase init
    ```
-   - Select Hosting and Firestore options
+   - Select Hosting and Firestore
    - Choose your Firebase project
-   - Use `build` as the public directory
+   - Set `build` as the public directory
 
-4. Build the project:
+4. **Build and deploy**
    ```bash
    npm run build
-   ```
-
-5. Deploy to Firebase:
-   ```bash
    firebase deploy
    ```
 
-### Vercel (Recommended)
+### Other Platforms
 
-This project can be easily deployed on [Vercel](https://vercel.com/):
+This Next.js application can be deployed to any platform that supports Node.js:
+- [Netlify](https://www.netlify.com/)
+- [Railway](https://railway.app/)
+- [Render](https://render.com/)
+- [AWS Amplify](https://aws.amazon.com/amplify/)
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Configure the environment variables
-4. Vercel will automatically deploy when you push to main
+## Release Management
+
+### Automated Release
+
+The project includes automated release management:
+
+```bash
+npm run release
+```
+
+This will:
+- Bump the patch version in `package.json`
+- Update version in `.env.local`
+- Create a git tag
+- Push changes and tags to GitHub
+- Trigger GitHub Actions to create a release
+
+### Manual Release
+
+For more control over versioning:
+
+```bash
+# Bump version (patch, minor, or major)
+npm version patch
+
+# Push with tags
+git push --follow-tags
+
+# Or create release with GitHub CLI
+gh release create v0.1.x --title "Release v0.1.x" --notes "Release notes"
+```
+
+View all releases: [GitHub Releases](https://github.com/peaktwilight/witelli20/releases)
+
+## Contributing
+
+This is an open source project and contributions are welcome! Whether you want to:
+- Fix bugs
+- Add new features
+- Improve documentation
+- Suggest ideas
+
+Your contributions are appreciated.
+
+### How to Contribute
+
+1. Fork the repository
+2. Create a feature branch
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Make your changes
+4. Commit with descriptive messages
+   ```bash
+   git commit -m "Add: brief description of changes"
+   ```
+5. Push to your fork
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+6. Open a Pull Request
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+### Code of Conduct
+
+Please be respectful and constructive in all interactions. This project follows standard open source community guidelines.
+
+## Documentation
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
+- [Firebase Documentation](https://firebase.google.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Built for the student community at Witellikerstrasse 20, Zurich
+- Uses the [Swiss Transport API](https://transport.opendata.ch/) for real-time transport data
+- Icons by [Phosphor Icons](https://phosphoricons.com/) and [Heroicons](https://heroicons.com/)
+- Animations by [Lottie](https://lottiefiles.com/)
+
+## Support
+
+If you encounter any issues or have questions:
+- Open an [issue on GitHub](https://github.com/peaktwilight/witelli20/issues)
+- Check existing issues and discussions
+- Review the [FAQ section](https://witelli20.web.app) on the live site
+
+---
+
+**Maintained with care by the Witelli20 community**
